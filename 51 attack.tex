@@ -1,0 +1,386 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Utilization of Miners History Information to Prevent 51\% Attack on Proof-of-Work Blockchain\\
+\thanks{Identify applicable funding agency here. If none, delete this.}
+}
+
+\author{\IEEEauthorblockN{David X. Chen}
+\IEEEauthorblockA{\textit{MOAC Blockchain Tech Inc.} \\
+Palo Alto, CA, USA \\
+david.chen@moac.io}
+\and
+\IEEEauthorblockN{Xinle Yang}
+\IEEEauthorblockA{\textit{MOAC Blockchain Tech Inc.} \\
+Portland, OR, USA \\
+xinle.yang@moac.io}
+\and
+\IEEEauthorblockN{Yang Chen}
+\IEEEauthorblockA{\textit{MOAC Blockchain Tech Inc.} \\
+Bellevue, WA, USA \\
+yang.chen@moac.io}
+}
+
+\maketitle
+
+\begin{abstract}
+Proof-of-Work (PoW) is a popular protocol used in Blockchain systems to resolve double-spending problem. Major public Blockchains including Bitcoin, Ethereum, MOAC and many others are using PoW as mining protocol. When two or more miners generate branches of blocks that do not agree with each other, an accidental fork occurs. In this situation, under PoW protocol, the branch with largest total calculation difficulty will be selected to avoid double-spending problem. However, if an attacking node with calculation hash power greater than half of the total hash power, this attacking node can create a double-spending attack. This is attack is also called 51\% attack. With PoW protocol, the cost of creating a 51\% attack is quite inexpensive. We propose a technique to combine history information of miners with the total calculation difficulty to solve 51\% attack problem. Analysis indicates that with the new technique, the cost of a similar attack is increased by hundreds of times or more.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Blockchain, 51\% Attack, Mining, Double spending attack
+\end{IEEEkeywords}
+
+\section{Introduction}
+Developed by Satoshi Nakamoto in 2009 \cite{b1}, Bitcoin is the first decentralized public ledger system. Since then, a number of similar blockchain-based cryptocurrencies have emerged. Blockchain is a distributed data processing protocol for retaining a public distributed ledger in a Peer-to-peer (P2P) network. Transaction data are recorded in blocks, and these blocks form a linked list (i.e., chain) of blocks. Each node in the network stores and maintains an entire copy of the ledger without requiring a central authority. In blockchain based cryptocurrencies, each block contains the hash value of the previous block, making it hard to manipulate the transactions within. Normally, a consensus protocol is used to guarantee the data integrity among the nodes of the blockchain P2P network. There are several different consensus protocols used in different types of blockchains \cite{b2}.
+
+Proof-of-Work (PoW) is the most commonly used consensus protocol in blockchain based cryptocurrencies. Major blockchains such as Bitcoin and Ethereum are both using different variety of PoW protocol. In PoW protocol, each node is competing to find a nonce value to produce a hash that meets a certain criteria. The difficulty of calculating such a nonce value can be calculated based on the criteria of the hash value. When such a nonce value is found, a block is generated and broadcasted to the P2P network. Depends on different variety of protocol, peer nodes always accept the longest chain or the chain with the largest total difficulty repeatedly to continuously expand the blockchain. PoW utilizes this mechanism to determine which node has the right to seal a block. And, this process is also called mining.
+
+In such a mechanism, a peer node with greater computing speed (or sometimes called hash rate power) can calculate nonce value faster than a peer node with less computing speed and thus has higher probability of getting the right to seal a new block. However, this mechanism has a drawback. A selfish node with hash rate power higher than those of the rest nodes combined can compromise the blockchain system by causing double spending and selfish mining, etc \cite{b3}\cite{b4}. This is commonly referred as a 51\% attack. Some studies have proposed ways to avoid such kind of attacks. Eyal and Sirer \cite{b5} in 2014 proposed a Two-Phase PoW (2P-PoW)solution preventing the formation of a mining pool with huge hash power. In this solution, the second phase PoW requires signature from the private key of the coinbase address. When the second PoW is sufficiently difficult, pool operators have to give out this private key to the pool miners in order to perform a calculation faster than all the peer nodes. Ruffing et al. \cite{b6} in 2015 proposed contracts to penalize attackers attempting a double-spending attack. Solat and Potop-Butucaru proposed ZeroBlock \cite{b7} in 2016. The mechanism in ZeroBlock requires a block to be accepted by its peers within certain time interval after the timestamp of the block. Otherwise, the block is expired. This mechanism prevent attacker node from selfish mining for a long period of time. J. Bae and H. Lim \cite{b8} in 2018 proposed a solution to randomly select a certain group of miners to have the right to compute the nonce and thus to .
+
+In this paper, we introduce a new solution by utilizing a historical weighted difficulty to determine the total chain difficulty. In such a modified algorithm, a branch of blockchain has a greater total historical weighted difficulty if the miners addresses of such a branch have a higher coverage rate in previous blocks. We demonstrate that, in reality, such an algorithm can increase the cost of 51\% attack by a factor of at least two orders of magnitude.
+
+\section{Historical weighted difficulty}
+
+
+\subsection{Maintaining the Integrity of the Specifications}
+
+The IEEEtran class file is used to format your paper and style the text. All margins, 
+column widths, line spaces, and text fonts are prescribed; please do not 
+alter them. You may note peculiarities. For example, the head margin
+measures proportionately more than is customary. This measurement 
+and others are deliberate, using specifications that anticipate your paper 
+as one part of the entire proceedings, and not as an independent document. 
+Please do not revise any of the current designations.
+
+\section{Prepare Your Paper Before Styling}
+Before you begin to format your paper, first write and save the content as a 
+separate text file. Complete all content and organizational editing before 
+formatting. Please note sections \ref{AA}--\ref{SCM} below for more information on 
+proofreading, spelling and grammar.
+
+Keep your text and graphic files separate until after the text has been 
+formatted and styled. Do not number text heads---{\LaTeX} will do that 
+for you.
+
+\subsection{Abbreviations and Acronyms}\label{AA}
+Define abbreviations and acronyms the first time they are used in the text, 
+even after they have been defined in the abstract. Abbreviations such as 
+IEEE, SI, MKS, CGS, ac, dc, and rms do not have to be defined. Do not use 
+abbreviations in the title or heads unless they are unavoidable.
+
+\subsection{Units}
+\begin{itemize}
+\item Use either SI (MKS) or CGS as primary units. (SI units are encouraged.) English units may be used as secondary units (in parentheses). An exception would be the use of English units as identifiers in trade, such as ``3.5-inch disk drive''.
+\item Avoid combining SI and CGS units, such as current in amperes and magnetic field in oersteds. This often leads to confusion because equations do not balance dimensionally. If you must use mixed units, clearly state the units for each quantity that you use in an equation.
+\item Do not mix complete spellings and abbreviations of units: ``Wb/m\textsuperscript{2}'' or ``webers per square meter'', not ``webers/m\textsuperscript{2}''. Spell out units when they appear in text: ``. . . a few henries'', not ``. . . a few H''.
+\item Use a zero before decimal points: ``0.25'', not ``.25''. Use ``cm\textsuperscript{3}'', not ``cc''.)
+\end{itemize}
+
+\subsection{Equations}
+Number equations consecutively. To make your 
+equations more compact, you may use the solidus (~/~), the exp function, or 
+appropriate exponents. Italicize Roman symbols for quantities and variables, 
+but not Greek symbols. Use a long dash rather than a hyphen for a minus 
+sign. Punctuate equations with commas or periods when they are part of a 
+sentence, as in:
+\begin{equation}
+a+b=\gamma\label{eq}
+\end{equation}
+
+Be sure that the 
+symbols in your equation have been defined before or immediately following 
+the equation. Use ``\eqref{eq}'', not ``Eq.~\eqref{eq}'' or ``equation \eqref{eq}'', except at 
+the beginning of a sentence: ``Equation \eqref{eq} is . . .''
+
+\subsection{\LaTeX-Specific Advice}
+
+Please use ``soft'' (e.g., \verb|\eqref{Eq}|) cross references instead
+of ``hard'' references (e.g., \verb|(1)|). That will make it possible
+to combine sections, add equations, or change the order of figures or
+citations without having to go through the file line by line.
+
+Please don't use the \verb|{eqnarray}| equation environment. Use
+\verb|{align}| or \verb|{IEEEeqnarray}| instead. The \verb|{eqnarray}|
+environment leaves unsightly spaces around relation symbols.
+
+Please note that the \verb|{subequations}| environment in {\LaTeX}
+will increment the main equation counter even when there are no
+equation numbers displayed. If you forget that, you might write an
+article in which the equation numbers skip from (17) to (20), causing
+the copy editors to wonder if you've discovered a new method of
+counting.
+
+{\BibTeX} does not work by magic. It doesn't get the bibliographic
+data from thin air but from .bib files. If you use {\BibTeX} to produce a
+bibliography you must send the .bib files. 
+
+{\LaTeX} can't read your mind. If you assign the same label to a
+subsubsection and a table, you might find that Table I has been cross
+referenced as Table IV-B3. 
+
+{\LaTeX} does not have precognitive abilities. If you put a
+\verb|\label| command before the command that updates the counter it's
+supposed to be using, the label will pick up the last counter to be
+cross referenced instead. In particular, a \verb|\label| command
+should not go before the caption of a figure or a table.
+
+Do not use \verb|\nonumber| inside the \verb|{array}| environment. It
+will not stop equation numbers inside \verb|{array}| (there won't be
+any anyway) and it might stop a wanted equation number in the
+surrounding equation.
+
+\subsection{Some Common Mistakes}\label{SCM}
+\begin{itemize}
+\item The word ``data'' is plural, not singular.
+\item The subscript for the permeability of vacuum $\mu_{0}$, and other common scientific constants, is zero with subscript formatting, not a lowercase letter ``o''.
+\item In American English, commas, semicolons, periods, question and exclamation marks are located within quotation marks only when a complete thought or name is cited, such as a title or full quotation. When quotation marks are used, instead of a bold or italic typeface, to highlight a word or phrase, punctuation should appear outside of the quotation marks. A parenthetical phrase or statement at the end of a sentence is punctuated outside of the closing parenthesis (like this). (A parenthetical sentence is punctuated within the parentheses.)
+\item A graph within a graph is an ``inset'', not an ``insert''. The word alternatively is preferred to the word ``alternately'' (unless you really mean something that alternates).
+\item Do not use the word ``essentially'' to mean ``approximately'' or ``effectively''.
+\item In your paper title, if the words ``that uses'' can accurately replace the word ``using'', capitalize the ``u''; if not, keep using lower-cased.
+\item Be aware of the different meanings of the homophones ``affect'' and ``effect'', ``complement'' and ``compliment'', ``discreet'' and ``discrete'', ``principal'' and ``principle''.
+\item Do not confuse ``imply'' and ``infer''.
+\item The prefix ``non'' is not a word; it should be joined to the word it modifies, usually without a hyphen.
+\item There is no period after the ``et'' in the Latin abbreviation ``et al.''.
+\item The abbreviation ``i.e.'' means ``that is'', and the abbreviation ``e.g.'' means ``for example''.
+\end{itemize}
+An excellent style manual for science writers is \cite{b7}.
+
+\subsection{Authors and Affiliations}
+\textbf{The class file is designed for, but not limited to, six authors.} A 
+minimum of one author is required for all conference articles. Author names 
+should be listed starting from left to right and then moving down to the 
+next line. This is the author sequence that will be used in future citations 
+and by indexing services. Names should not be listed in columns nor group by 
+affiliation. Please keep your affiliations as succinct as possible (for 
+example, do not differentiate among departments of the same organization).
+
+\subsection{Identify the Headings}
+Headings, or heads, are organizational devices that guide the reader through 
+your paper. There are two types: component heads and text heads.
+
+Component heads identify the different components of your paper and are not 
+topically subordinate to each other. Examples include Acknowledgments and 
+References and, for these, the correct style to use is ``Heading 5''. Use 
+``figure caption'' for your Figure captions, and ``table head'' for your 
+table title. Run-in heads, such as ``Abstract'', will require you to apply a 
+style (in this case, italic) in addition to the style provided by the drop 
+down menu to differentiate the head from the text.
+
+Text heads organize the topics on a relational, hierarchical basis. For 
+example, the paper title is the primary text head because all subsequent 
+material relates and elaborates on this one topic. If there are two or more 
+sub-topics, the next level head (uppercase Roman numerals) should be used 
+and, conversely, if there are not at least two sub-topics, then no subheads 
+should be introduced.
+
+\subsection{Figures and Tables}
+\paragraph{Positioning Figures and Tables} Place figures and tables at the top and 
+bottom of columns. Avoid placing them in the middle of columns. Large 
+figures and tables may span across both columns. Figure captions should be 
+below the figures; table heads should appear above the tables. Insert 
+figures and tables after they are cited in the text. Use the abbreviation 
+``Fig.~\ref{fig}'', even at the beginning of a sentence.
+
+\begin{table}[htbp]
+\caption{Table Type Styles}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Table}&\multicolumn{3}{|c|}{\textbf{Table Column Head}} \\
+\cline{2-4} 
+\textbf{Head} & \textbf{\textit{Table column subhead}}& \textbf{\textit{Subhead}}& \textbf{\textit{Subhead}} \\
+\hline
+copy& More table copy$^{\mathrm{a}}$& &  \\
+\hline
+\multicolumn{4}{l}{$^{\mathrm{a}}$Sample of a Table footnote.}
+\end{tabular}
+\label{tab1}
+\end{center}
+\end{table}
+
+\begin{figure}[htbp]
+%\centerline{\includegraphics{fig1.png}}
+\caption{Example of a figure caption.}
+\label{fig}
+\end{figure}
+
+Figure Labels: Use 8 point Times New Roman for Figure labels. Use words 
+rather than symbols or abbreviations when writing Figure axis labels to 
+avoid confusing the reader. As an example, write the quantity 
+``Magnetization'', or ``Magnetization, M'', not just ``M''. If including 
+units in the label, present them within parentheses. Do not label axes only 
+with units. In the example, write ``Magnetization (A/m)'' or ``Magnetization 
+\{A[m(1)]\}'', not just ``A/m''. Do not label axes with a ratio of 
+quantities and units. For example, write ``Temperature (K)'', not 
+``Temperature/K''.
+
+\section{Real data statistics from Ethereum}
+We picked a well-known PoW blockchain platform Ethereum. The hypothesis is, if total history weight of miners in the latest small length of blocks is over 60\% it means we can use this way to predict if it is in a chain split situation. We checked block data of 2,000,000, 4,000,000, 6,000,000 and following 360 blocks for each from Etheruem.
+
+\begin{table}[htbp]
+\caption{Ethereum block miners from 2,000,001 to 2,000,360}
+\begin{center}
+\begin{tabular}{lclclcl}
+\hline
+Miner                                      & Weight   & Amount & Weight\_in\_2M \\
+\hline
+0x1654......d5de & 0.002778 & 1      & 0.001272       \\
+0x186a......b0f2 & 0.002778 & 1      & 0.000001       \\
+0x1a06......58f1 & 0.030556 & 11     & 0.004212       \\
+0x2a65......8226 & 0.272222 & 98     & 0.239315       \\
+0x2cb7......6402 & 0.002778 & 1      & 0.000004       \\
+0x30b6......4e6d & 0.002778 & 1      & 0.002430       \\
+0x40ce......f821 & 0.002778 & 1      & 0.000954       \\
+0x4bb9......1b01 & 0.063889 & 23     & 0.057752       \\
+0x52bc......e3b5 & 0.038889 & 14     & 0.147223       \\
+0x5979......e584 & 0.002778 & 1      & 0.000116       \\
+0x61c8......0bd9 & 0.177778 & 64     & 0.049251       \\
+0x6879......01da & 0.025000 & 9      & 0.023600       \\
+0x6caf......a46d & 0.002778 & 1      & 0.001050       \\
+0x7a14......0b95 & 0.002778 & 1      & 0.001233       \\
+0x9148......a49d & 0.002778 & 1      & 0.000021       \\
+0x94ce......a2f7 & 0.002778 & 1      & 0.000944       \\
+0x9558......7211 & 0.002778 & 1      & 0.011990       \\
+0xa027......e88f & 0.005556 & 2      & 0.012287       \\
+0xa42a......e84e & 0.055556 & 20     & 0.001293       \\
+0xadd8......db02 & 0.002778 & 1      & 0.000039       \\
+0xbcdf......41d1 & 0.163889 & 59     & 0.023924       \\
+0xd138......a31c & 0.005556 & 2      & 0.000053       \\
+0xd3d0......ee9d & 0.002778 & 1      & 0.001598       \\
+0xdc3f......e455 & 0.002778 & 1      & 0.000340       \\
+0xea67......8ec8 & 0.116667 & 42     & 0.036458       \\
+0xf3b9......c2fb & 0.005556 & 2      & 0.008294      \\
+\hline
+\multicolumn{4}{l}{$^{\mathrm{a}}$Toal miners' weight from previous 2 million blocks is 62.57\%.}
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Ethereum block miners from 4,000,001 to 4,000,360}
+\begin{center}
+\begin{tabular}{lclclcl}
+\hline
+Miner                                      & Weight   & Amount & Weight\_in\_4M \\
+\hline
+0x1e99......0341 & 0.138889 & 50     & 0.039864       \\
+0x2a65......8226 & 0.072222 & 26     & 0.203597       \\
+0x4bb9......1b01 & 0.016667 & 6      & 0.058306       \\
+0x52bc......e3b5 & 0.075000 & 27     & 0.096536       \\
+0x73b8......7fea & 0.005556 & 2      & 0.003767       \\
+0x829b......a830 & 0.283333 & 102    & 0.006120       \\
+0x8727......87a5 & 0.005556 & 2      & 0.000166       \\
+0x9435......7805 & 0.008333 & 3      & 0.001669       \\
+0x9633......a11c & 0.008333 & 3      & 0.002592       \\
+0xa027......e88f & 0.002778 & 1      & 0.006821       \\
+0xa42a......e84e & 0.005556 & 2      & 0.017388       \\
+0xa4aaf......7f0d & 0.005556 & 2      & 0.001638       \\
+0xa9a9......51fc & 0.002778 & 1      & 0.000456       \\
+0xb293......0347 & 0.086111 & 31     & 0.016308       \\
+0xc0ea......2949 & 0.033333 & 12     & 0.036065       \\
+0xea67......8ec8 & 0.236111 & 85     & 0.102737       \\
+0xf3b9......c2fb & 0.013889 & 5      & 0.011940      \\
+\hline
+\multicolumn{4}{l}{$^{\mathrm{a}}$Toal miners' weight from previous 4 million blocks is 65.60\%.}
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Ethereum block miners from 6,000,001 to 6,000,360}
+\begin{center}
+\begin{tabular}{lclclcl}
+\hline
+Miner                                      & Weight   & Amount & Weight\_in\_6M \\
+\hline
+0x0019......99e8 & 0.002778 & 1      & 0.000262   \\
+0x1ca4......be1a & 0.019444 & 7      & 0.000301   \\
+0x2a65......8226 & 0.027778 & 10     & 0.147516   \\
+0x35f6......738d & 0.005556 & 2      & 0.000108   \\
+0x4a07......a82b & 0.005556 & 2      & 0.000993   \\
+0x4bb9......1b01 & 0.002778 & 1      & 0.044112   \\
+0x52bc......e3b5 & 0.116667 & 42     & 0.106200   \\
+0x52e4......f13c & 0.013889 & 5      & 0.002402   \\
+0x5a0b......9c4c & 0.133333 & 48     & 0.036217   \\
+0x6a7a......9b1f & 0.008333 & 3      & 0.002958   \\
+0x70ae......e21d & 0.008333 & 3      & 0.000786   \\
+0x829b......a830 & 0.127778 & 46     & 0.074208   \\
+0x914d......1dcd & 0.002778 & 1      & 0.000056   \\
+0x92e3......b549 & 0.002778 & 1      & 0.000274   \\
+0x9435......7805 & 0.002778 & 1      & 0.003470   \\
+0xb293......0347 & 0.105556 & 38     & 0.043726   \\
+0xb75d......22f5 & 0.011111 & 4      & 0.001900   \\
+0xb8f8......5453 & 0.002778 & 1      & 0.000222   \\
+0xcc16......e610 & 0.002778 & 1      & 0.000742   \\
+0xd100......4fce & 0.002778 & 1      & 0.000157   \\
+0xd380......636d & 0.002778 & 1      & 0.000000   \\
+0xd438......1807 & 0.011111 & 4      & 0.000198   \\
+0xd958......4012 & 0.013889 & 5      & 0.000088   \\
+0xd9cf......06e3 & 0.002778 & 1      & 0.000036   \\
+0xe4bd......0649 & 0.005556 & 2      & 0.001237   \\
+0xea67......8ec8 & 0.322222 & 116    & 0.154956   \\
+0xf3b9......c2fb & 0.036111 & 13     & 0.015957  \\
+\hline
+\multicolumn{4}{l}{$^{\mathrm{a}}$Toal miners' weight from previous 6 million blocks is 63.91\%.}
+\end{tabular}
+\end{center}
+\end{table}
+
+\section*{Acknowledgment}
+
+The preferred spelling of the word ``acknowledgment'' in America is without 
+an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B. 
+G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
+acknowledgments in the unnumbered footnote on the first page.
+
+\section*{References}
+
+Please number citations consecutively within brackets \cite{b1}. The 
+sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
+number, as in \cite{b3}---do not use ``Ref. \cite{b3}'' or ``reference \cite{b3}'' except at 
+the beginning of a sentence: ``Reference \cite{b3} was the first $\ldots$''
+
+Number footnotes separately in superscripts. Place the actual footnote at 
+the bottom of the column in which it was cited. Do not put footnotes in the 
+abstract or reference list. Use letters for table footnotes.
+
+Unless there are six authors or more give all authors' names; do not use 
+``et al.''. Papers that have not been published, even if they have been 
+submitted for publication, should be cited as ``unpublished'' \cite{b4}. Papers 
+that have been accepted for publication should be cited as ``in press'' \cite{b5}. 
+Capitalize only the first word in a paper title, except for proper nouns and 
+element symbols.
+
+For papers published in translation journals, please give the English 
+citation first, followed by the original foreign-language citation \cite{b6}.
+
+\begin{thebibliography}{00}
+\bibitem{b1} S. Nakamoto,``Bitcoin: A peer-to-peer electronic cash system," 2008.
+\bibitem{b2} Z. Zheng, S. Xie, H. Dai, X. Chen, and H. Wang, ``Blockchain challenges
+and opportunities: A survey," Internat. J. Web Grid Serv., 2016.
+\bibitem{b3}M. Conti, S. Kumar E, C. Lal, and S. Ruj, ``A survey on security and privacy issues of Bitcoin," arXiv preprint arXiv:1706.00916, 2017.
+\bibitem{b4} Eyal, I. and Sirer, E.G. (2014) ``Majority is not enough: Bitcoin mining is vulnerable", Proceedings
+of International Conference on Financial Cryptography and Data Security, Berlin, Heidelberg,
+pp.436–454.
+\bibitem{b5} I. Eyal and E. G. Sirer, ``How to disincentivize large Bitcoin mining pools," 2014.
+\bibitem{b6} T. Ruffing et al., “Liar, liar, coins on fire!: Penalizing equivocation by loss of Bitcoins," ACM Conf. Comput. Commun. Secur., Oct. 2015.
+\bibitem{b7} S. Solat and M. Potop-Butucaru,``ZeroBlock: Preventing selfish mining in Bitcoin," arXiv preprint arXiv:1605.02435, 2016.
+\bibitem{b8} J. Bae and H. Lim, ``Random Mining Group Selection to Prevent 51\% Attacks on Bitcoin," 2018 48th Annual IEEE/IFIP International Conference on Dependable Systems and Networks Workshops (DSN-W), Luxembourg City, 2018, pp. 81-82.
+doi: 10.1109/DSN-W.2018.00040
+\end{thebibliography}
+\vspace{12pt}
+\color{red}
+IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.
+
+\end{document}
