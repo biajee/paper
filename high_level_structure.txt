@@ -1,0 +1,11 @@
+I Introduction
+
+II Historical Weighted Difficulty
+
+III Real Data from Etherum
+
+IV Conclusion
+
+V Acknowlegement
+
+Reference
