@@ -47,14 +47,81 @@ Proof-of-Work (PoW) is the most commonly used consensus protocol in blockchain b
 
 In such a mechanism, a peer node with greater computing speed (or sometimes called hash rate power) can calculate nonce value faster than a peer node with less computing speed and thus has higher probability of getting the right to seal a new block. However, this mechanism has a drawback. A selfish node with hash rate power higher than those of the rest nodes combined can compromise the blockchain system by causing double spending and selfish mining, etc \cite{b3}\cite{b4}. This is commonly referred as a 51\% attack. Some studies have proposed ways to avoid such kind of attacks. Eyal and Sirer \cite{b5} in 2014 proposed a Two-Phase PoW (2P-PoW)solution preventing the formation of a mining pool with huge hash power. In this solution, the second phase PoW requires signature from the private key of the coinbase address. When the second PoW is sufficiently difficult, pool operators have to give out this private key to the pool miners in order to perform a calculation faster than all the peer nodes. Ruffing et al. \cite{b6} in 2015 proposed contracts to penalize attackers attempting a double-spending attack. Solat and Potop-Butucaru proposed ZeroBlock \cite{b7} in 2016. The mechanism in ZeroBlock requires a block to be accepted by its peers within certain time interval after the timestamp of the block. Otherwise, the block is expired. This mechanism prevent attacker node from selfish mining for a long period of time. J. Bae and H. Lim \cite{b8} in 2018 proposed a solution to randomly select a certain group of miners to have the right to mine the next block.
 
-In this paper, we introduce a new solution by utilizing a historical weighted difficulty to determine the total chain difficulty. In such a modified algorithm, a branch of blockchain has a greater total historical weighted difficulty if the miners of such a branch have a higher coverage rate in previous blocks. We demonstrate that, in reality, such an algorithm can increase the cost of 51\% attack by a factor of at least two orders of magnitude.
+In this paper, we introduce a new solution by utilizing a historical weighted difficulty to determine the total chain difficulty. In such a modified algorithm, a branch of blockchain has a greater total historical weighted difficulty if the miners of such a branch have a higher coverage rate in previous blocks. We demonstrate that, in reality, such an algorithm can increase the money cost and the time cost of 51\% attack by a factor of at least two orders of magnitude.
 
 \section{Historical weighted difficulty}
+First, let us review the 51\% attack scheme. Assume current hashrate is $p$, attacker accumulate a greater hashrate power $p'$ with \text{$p' > p$}, and utilize this hashrate power to compute a hidden branch $B'$. Attacker performs double spending in two branches. Attacker then reveals hidden longer branch $B'$ and invalidate all transactions in original branch $B$. The cost to launch such a 51\% attack is,
+\begin{equation}
+equation holder\label{eq}
+\end{equation}
+To many small blockchains, the cost to perform such an attack is only hundreds or thousands of US Dollars.
 
+We propose a technique to calculate the total difficulty of a certain branch with the consideration of the miners addresses existence frequency in the previous blocks. The assumption is that in an honest blockchain branch, miners of new blocks will most likely be the majority of the miners of the blocks previously mined. And, in a malicious blockchain branch, miners of new blocks will most likely only exists in a very limited ratio of miners in the blocks that are previously mined. Therefore, when mining history of miners are considered, one can easily distinguish an honest blockchain branch from a malicious one.
+
+Under the proposed the mechanism, branch with miners of less representation in the previous blocks will earn less weight in the total difficulty calculation. Therefore, to perform a 51\% attack, the malicious miner have two choices: either to mine a much longer branch, or to build up miner representation in the previous blocks to build up the credibility.
+
+Now, let us look at how Historical Weight Difficulty scheme works to defend the 51\% attack. (1) First, record each miner’s block generation frequency for history windows $W$:
+\begin{equation}
+equation holder\label{eq}
+\end{equation}
+(2) Then, each block is then signed by miner's private key. By doing this, miners will not be able to counterfeit the miner address.
+(3) When split happens, Historical Weighted Difficulty \text{$H\!W\!D$}  is calculated. For any miner $k$ in the branch $b$,
+\begin{equation}
+equation holder\label{eq}
+\end{equation}
+(4) Peer nodes compare two different \text{$H\!W\!D$}'s from two branches. And, the branch with greater \text{$H\!W\!D$} will be selected.
+
+Scenario 1: If attacker just brings in temporary new hashrate power, even if the hidden branch is longer in difficulty, but the miner of the new branch is relatively new to the system, so the $r_i$ of the blocks is very low. The corresponding \text{$H\!W\!D$} will be very little compared to the original branch. No peer node in the original branch will switch to the attacker branch. 
+
+Scenario 2: In order to gain historical weight of the miner, the attacker can mine in the original branch for a while, make itself included in the history. Therefore, when it switches to hidden branch, it’s \text{H\!W\!D} will be greater. 
+
+Suppose $p'$ is the attacker miners' hashrate, $p0$ is the honest miners' hashrate.
+
+\begin{figure}[htbp]
+%\centerline{\includegraphics{fig1.png}}
+\caption{Example of a figure caption.}
+\label{fig}
+\end{figure}
+
+Let's look at the cost of this setup. Attacker needs to spend hashrate $p'$ in the original branch for a time duration $t'$. The optimum spending of $p'$ is to mine for $w/2$ period and then switch $p'$ to hidden branch. 
+
+At attack time point, assume
+\begin{equation}
+equation holder\label{eq}
+\end{equation}
+In order for attack to be successful, At the reveal time, \text{$H\!W\!D$} of the malicious branch is,
+\begin{equation}
+equation holder\label{eq}
+\end{equation}
+\text{$H\!W\!D$} of the original branch is,
+\begin{equation}
+equation holder\label{eq}
+\end{equation}
+Therefore, the following condition must satisfy,
+\begin{equation}
+equation holder\label{eq}
+\end{equation}
+To summarize, attacker needs to prepare for $(w-l)$ duration with hashrate $1/2+l/(4w-2l)$.
+
+For a typical attack, $l$ needs to be around 100-500 block to allow token withdrawn from token exchange. We need to have $w > 1 month$ to increase the history weight to attack. With $w = 100,000$, the robustness is increased by over 1000 time. 
+
+In the above scenarios, although we cannot totally avoid 51\% attach, but we increased the money cost and time cost of such an attack to at least two orders of magnitude.
+
+Also, this mechanism can be more secured if we introduce another condition such as by requiring the new branch with certain amount of miner overlap with the old branch. Under such a condition, in order for a branch switch to happen, one needs to satisfy not only the \text{H\!W\!D} condition,
+\begin{equation}
+equation holder\label{eq}
+\end{equation} 
+but also, the overlap of old miners and new miners need to be greater than $s$,
+\begin{equation}
+equation holder\label{eq}
+\end{equation}
+Meaning, the system discourages sudden hash power switch from one set of miners to another distinct set of miners.
+
+With such an enhanced requirement, if $s=0.25$, attacker needs to have two times of the current hashrate with time duration $w$. Which means attacker needs to keep some hashrate in the original branch, and twice more in the malicious branch to compensate the effect. Therefore, by introducing such a requirement, we double the time cost and tripled the money cost to perform an attack to the original Historical Weighted Difficulty algorithm.
 
 \section{Real data statistics from Ethereum}
 
-We picked a well-known PoW blockchain platform Ethereum. The hypothesis is, if total history weight of miners in the latest small length of blocks is over 60\% it means we can use this way to predict if it is in a chain split situation. We checked block data of 2,000,000, 4,000,000, 6,000,000 and following 360 blocks for each from Etheruem.
+We picked a well-known PoW blockchain platform Ethereum. The hypothesis is, if total historical weight of miners in the latest small amount of blocks is over 60\% it means we can use this way to predict if it is in a chain split situation. We checked block data of 2,000,000, 4,000,000, 6,000,000 and following 360 blocks for each from Ethereum.
 
 \begin{table}[htbp]
 \caption{Ethereum block miners from 2,000,001 to 2,000,360}
