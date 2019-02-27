@@ -165,6 +165,29 @@ Miner                                      & Weight   & Amount & Weight\_in\_6M 
 \end{center}
 \end{table}
 
+\section{All Equations}
+$Cost=(token\, price*block\, reward)*freqency*attack\, duration$ \\
+\\
+$r_i=\frac{(block\, mined\, by\, node\ i)}{(total\, block\, generated\, in\, window\ w)}$ \\
+\\
+$\sum_{i=0}^{n}r_i = 1$ \\
+\\
+$H\!W\!D_b = \sum_{k=0}^{l}r_k$ \\
+\\
+$H\!W\!D_b= \sum_{k=0}^{l}r'_k=\frac{1}{2} + \delta$ \\
+\\
+$H\!W\!D_b= (\frac{1}{2} + \delta) * \frac{w-l}{w}$ \\
+\\
+$H\!W\!D_0 = \sum_{k=0}^{l} r_{k}^{0} =  \frac{1}{2} - \delta$ \\
+\\
+$(\frac{1}{2} + \delta) * \frac{w-l}{w} > \frac{1}{2}-\delta$ \\
+\\
+$\delta>\frac{l}{4w-2l}$ \\
+\\
+$H\!W\!D_b>H\!W\!D_0$ \\
+\\
+$\{r_i\}\bigcap\{r_k\}>s$ \\
+
 \section*{Acknowledgment}
 
 This work was supported by MOAC foundation and MOAC Blockchain Tech Inc.
