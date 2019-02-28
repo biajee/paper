@@ -127,12 +127,12 @@ Although we cannot totally avoid 51\% attacks, we can dramatically increased the
 
 \section{Additional improvement schemes}
 
-Orthogonal to above mentioned HWD scheme, more improvement schemes can be applied on top of that. 
+Orthogonal to above mentioned HWD scheme, additional improvement schemes can be applied to further increase the cost of attack. 
 
-The first approach is to post a cap of $r_i < r_c$, which means single miner can never be counted more than $r_c$ even it generates more blocks within the history window. The miners could purposely split the mining hashrate into miltiple miners to make sure each one below $r_c$. This will circumvent the approach. However, this is still useful, as it increase the cost for attackers to maintain multiple miner accounts. 
+The first approach is to post a cap of $r_i < r_c$, which means single miner can never be counted more than $r_c$ even it generates more blocks within the history window. This approach will encourage more diversified mining pool. At the same time, the miners could purposely split the mining hashrate into miltiple miners to make sure each one below $r_c$. This will circumvent the diversification requirement. However, this is still useful, as it increase the cost for attackers to maintain multiple miner accounts. 
 
 
-This second approach is to post an overlap requirement between two split branches. To minimize the attack cost, attacker will focus its hashrate to the malicious branch. The overlap requires the new branch posses a certain amount of miner overlap with the old branch. Under such a condition, in order for a branch switch to happen, one needs to satisfy not only the \text{$H\!W\!D$} condition,
+The second approach is to post an overlap requirement between two split branches. To minimize the attack cost, attacker will focus its hashrate to the malicious branch. The overlap requires the new branch posses a certain amount of miner overlap with the old branch. Under such a condition, in order for a branch switch to happen, one needs to satisfy not only the \text{$H\!W\!D$} condition,
 \begin{equation}
     H\!W\!D_b>H\!W\!D_0\label{eq}
 \end{equation} 
@@ -142,7 +142,7 @@ but also, the overlap of old miners and new miners need to be greater than $s$,
 \end{equation}
 Meaning, the system discourages sudden hash power switch from one set of miners to another distinct set of miners.
 
-With such an enhanced requirement, if $s=0.25$, an attacker needs to have two times of the current hashrate with time duration $w$. This means an attacker needs to keep some hashrate in the original branch, and twice more in the malicious branch to compensate for the effect. Therefore, by introducing such a requirement, we double the time cost (and tripled the money cost) to perform an attack to the original Historical Weighted Difficulty algorithm. For higher $s$, attacker needs to spend much more hashrate than the minimal case. 
+With such an enhanced requirement, if $s=0.25$, an attacker needs to have two times of the current hashrate within time duration $w$. This means an attacker needs to keep some hashrate in the original branch, and twice more in the malicious branch to compensate for the effect. Therefore, by introducing such a requirement, we double the time cost (and tripled the money cost) to perform an attack to the original Historical Weighted Difficulty algorithm. For higher $s$, attacker needs to spend much more hashrate than the minimal case. 
 
 \section{HWD algorithm}
 In this section, we will present the algorithm to perform HWD based branch selection.  
