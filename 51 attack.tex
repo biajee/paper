@@ -331,11 +331,11 @@ From the above data, we can see that the total miners' weight are $62.57\%$, $65
             {(2,62.57) (4,65.60) (6,63.91)};
         \end{axis}
     \end{tikzpicture}
-    \caption{Total historical weight $H\!W$ of unique miners of the 360 new blocks from previous blocks $n$.}
+    \caption{Total historical weight $H\!W$ of unique miners of the 360 new blocks from previous blocks $n$. We can see that naturally, the historical weight of unique miners are about over 60\%.}
     \label{fig2}
     \end{figure}    
     
-The cost of attacking such a chain under regular Ethereum PoW protocol is $361$ Ether. Under HWD-PoW protocol, if an attacker appeared in $1\%$ of pervious blocks, the total cost of performing an attack will be calculated as follow,
+The cost of attacking such a chain under regular Ethereum PoW protocol is $361$ Ethers. Under HWD-PoW protocol, if an attacker appeared in $1\%$ of pervious blocks, the total cost of performing an attack will be calculated as follow,
 \begin{equation}
     Cost = r_i * W + \frac{360 * 60\%}{r_i}\label{eq}
 \end{equation}
@@ -358,7 +358,7 @@ The actual cost of the three scenarios under HWD-PoW protocol are 41,601 Ethers,
         {(2,41601) (4,61601) (6,81601)};
     \end{axis}
 \end{tikzpicture}
-\caption{Comparing the cost of perform a 51\% attack, PoW vs. HWD-PoW.}
+\caption{Comparing the cost of perform a 51\% attack, PoW vs. HWD-PoW. The cost different is clearly at least two orders of magnitude apart.}
 \label{fig3}
 \end{figure}    
 
