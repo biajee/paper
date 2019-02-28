@@ -12,7 +12,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Utilization of Miners History Information to Prevent 51\% Attack on Proof-of-Work Blockchain\\
+\title{Effective scheme against 51\% Attack on Proof-of-Work Blockchain with History Weighted Information\\
 }
 
 \author{
@@ -25,8 +25,9 @@ Palo Alto, CA, USA \\
 \maketitle
 
 \begin{abstract}
-Proof-of-Work (PoW) is a popular protocol used in Blockchain systems to resolve double-spending problems. Major public Blockchains including Bitcoin, Ethereum, MOAC and many others are using PoW as mining protocol. When two or more miners generate branches of blocks that do not agree with each other, an accidental fork occurs. In this situation, under PoW protocol, the branch with largest total calculation difficulty will be selected to avoid double-spending problems. However, if an attacking node has a calculation hash power greater than half of the total hash power, this attacking node can create a double-spending attack. This is attack is also called a 51\% attack. With PoW protocol, the cost of creating a 51\% attack is quite inexpensive. We propose a technique to combine history information of miners with the total calculation difficulty to solve the 51\% attack problem. Analysis indicates that with the new technique, the cost of a similar attack is increased by hundreds of times or more.
+Proof-of-Work (PoW) is a popular protocol used in Blockchain systems to resolve double-spending problems. However, if an attacker has access to calculation hash power greater than half of the total hash power, this attacker can create a double-spending attack or 51\% attack. The cost of creating a 51\% attack is surprisingly low if hash power is abundently available. That post a great threat to lots of POW blockchains. We propose a technique to combine history weighted information of miners with the total calculation difficulty to alleviate the 51\% attack problem. Analysis indicates that with the new technique, the cost of a traditional attack is increased by two orders of magnitude or more.
 \end{abstract}
+
 
 \begin{IEEEkeywords}
 Blockchain, 51\% Attack, Mining, Double spending attack
@@ -41,13 +42,19 @@ In such a mechanism, a peer node with greater computing speed (or sometimes call
 
 In this paper, we introduce a new solution by utilizing a historical weighted difficulty to determine the total chain difficulty. In such a modified algorithm, a branch of blockchain has a greater total historical weighted difficulty if the miners of such a branch have a higher coverage rate in previous blocks. We demonstrate that, in reality, such an algorithm can increase the money cost and the time cost of 51\% attacks by a factor of at least two orders of magnitude.
 
-\section{Historical weighted difficulty}
+\section{51\% attack and cost}
 First, let us review the 51\% attack scheme. Assume the current hashrate is $p$, the attacker accumulates a greater hashrate power $p'$ with \text{$p' > p$}, and utilizes this hashrate power to compute a hidden branch $B'$. The attacker performs double spending in two branches. The attacker then reveals hidden longer branch $B'$ and invalidates all transactions in original branch $B$. The cost to launch such a 51\% attack is,
 \begin{equation}
 Cost=(P*R)*f*t\label{eq}
 \end{equation}
 where $P$ is the token price, $R$ is the block reward, $f$ is the frequency of block generation speed, and $t$ stands for the duration of the attack.
-For many small blockchains, the cost to perform such an attack is only hundreds or thousands of US Dollars.
+For many small blockchains, the cost to perform such an attack is only hundreds or thousands of US Dollars\cite{b9}.
+
+The other factor makes the Scenario worse is that hashrate could be easily accessible to anyone who can pay the right price. NiceHash\cite{b10} provides an open market for hashrate exchange. Anyone can easily pays with cryptocurrency to rent available hashrate to mine for the target blockchain. So an attacker can accumulates significant hashrate in short period of time to exceed the 51\% threshold. The attacker can double spend the token particarlly through a centralized exchange. The whole process only takes around 50-300 blocks. After that, attacker can release the rented hashrate and walk away with the profit. 
+
+Most recently, Ethereum Classic\cite{b11} was attacked. Large amount of ETC was double-spent in attack branch length ranged from 50 to 150.
+
+\section{Historical weighted difficulty}
 
 We propose a technique to calculate the total difficulty of a certain branch with the consideration of the miners addresses existence frequency in the previous blocks. We call this protocol HWD-PoW protocol. The assumption is that in an honest blockchain branch, miners of new blocks will most likely be the majority of the miners of the blocks previously mined. Furthermore, in a malicious blockchain branch, miners of new blocks will most likely only exist in a very limited ratio of miners in the blocks that are previously mined. Therefore, when mining histories of miners are considered, one can easily distinguish an honest blockchain branch from a malicious one.
 
@@ -108,7 +115,10 @@ To summarize, the attacker needs to prepare for $(w-l)$ duration with hashrate $
 
 For a typical attack, $l$ needs to be around 100-500 blocks to allow token withdrawal from a token exchange. We need to have $w > 1 month$ to increase the history weight to attack. With $w = 100,000$, the robustness is increased by over 100 times. 
 
-Although we cannot totally avoid 51\% attacks, in the above scenarios, we increased the money cost and time cost of such an attack by at least two orders of magnitude.
+Although we cannot totally avoid 51\% attacks, in the above scenarios, we increased the money cost and time cost of such an attack by at least two orders of magnitude. And time cost is more expensive as the chances of malicious behavior will have more chance to be discovered. 
+
+
+\section{Additional enforcement scheme}
 
 Also, this mechanism can be more secured if we introduce another condition, such as requiring the new branch posses a certain amount of miner overlap with the old branch. Under such a condition, in order for a branch switch to happen, one needs to satisfy not only the \text{$H\!W\!D$} condition,
 \begin{equation}
@@ -263,6 +273,10 @@ pp.436–454.
 \bibitem{b7} S. Solat and M. Potop-Butucaru,``ZeroBlock: Preventing selfish mining in Bitcoin," arXiv preprint arXiv:1605.02435, 2016.
 \bibitem{b8} J. Bae and H. Lim, ``Random Mining Group Selection to Prevent 51\% Attacks on Bitcoin," 2018 48th Annual IEEE/IFIP International Conference on Dependable Systems and Networks Workshops (DSN-W), Luxembourg City, 2018, pp. 81-82.
 doi: 10.1109/DSN-W.2018.00040
+\bibitem{b9} POW 51\% attack cost, https://www.crypto51.app
+\bibitem{b10} NiceHash - Largest Crypto-Mining Marketplace, https://www.nicehash.com/
+\bibitem{b11} Deep Chain Reorganization Detected on Ethereum Classic (ETC), https://blog.coinbase.com/ethereum-classic-etc-is-currently-being-51-attacked-33be13ce32de
+
 \end{thebibliography}
 \vspace{12pt}
 \color{red}
