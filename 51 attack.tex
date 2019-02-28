@@ -8,6 +8,12 @@
 \graphicspath{ {images/} }
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{filecontents}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.10}
+
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -72,8 +78,9 @@ where $\sum_{i=0}^{n}r_i = 1$
 
 (3) When a split is detected, Historical Weighted Difficulty \text{$H\!W\!D$} is calculated for each branch at each peer node in the following way: for any unique miner $k$ in the branch $b$,
 \begin{equation}
-    H\!W\!D_b = \sum_{k=0}^{l}r_k\label{eq}
+    H\!W\!D_b = H\!W_b * \!D_b = \sum_{k=0}^{l}r_k*\sum_{k=0}^{l}d_k\label{eq}
 \end{equation}
+where $r_k$ is the block generation frequency in the history window, $d_k$ is the difficulty of block $k$, and $l$ is the branch length.
 
 Please note that only unique miner's generation frequency is counted. If one node mined multiple blocks, it is only counted once. This is to discourage single high hashrate miner taking over block generation, thus encourage the decentralization of mining. It also increase the difficulty of attack.
 
@@ -81,7 +88,7 @@ Please note that only unique miner's generation frequency is counted. If one nod
 
 The immediate result is clear: if the attacker just brings in temporary new hashrate power, even if the hidden branch is longer in difficulty, but the miner of the new branch is relatively new to the system, so the $r_i$ of the blocks is very low. The corresponding \text{$H\!W\!D$} will be very small compared to the original branch. No peer node in the original branch will switch to the attacker branch. This scheme can easily defend rent-and-attack case. 
 
-If the attacker wants to make node to switch his raudulent branch, he will need to produce higher \text{$H\!W\!D$} value. The attacker needs to mine in the original branch for a while to make itself included in the history. Therefore, when it switches to hidden branch, its \text{H\!W\!D} will be greater. 
+If the attacker wants to make node to switch his raudulent branch, he will need to produce higher \text{$H\!W\!D$} value. The attacker needs to mine in the original branch for a while to make itself included in the history. Therefore, when it switches to hidden branch, its \text{$H\!W\!D$} will be greater. 
 
 Suppose $p'$ is the attacker miners' hashrate, $p0$ is the honest miners' hashrate.
 
@@ -261,11 +268,51 @@ Miner                                      & Weight   & Amount & Weight\_in\_6M 
 \end{center}
 \end{table}
 
-From the above data, we can see that the total miner appearance rates are $62.57\%$, $65.60\%$ and $63.91\%$. All of which are around over $60\%$. The cost of attacking such a chain under regular Ethereum PoW protocol is $361$ Ether. Under HWD-PoW protocol, if an attacker appeared in $1\%$ of pervious blocks, the total cost of performing an attack will be calculated as follow,
+From the above data, we can see that the total miners' weight are $62.57\%$, $65.60\%$ and $63.91\%$. All of which are around over $60\%$ (Fig.~\ref{fig2}). 
+
+\begin{figure}[htbp]
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel={Ethereum mainnet block number $n$ (million)},
+            ylabel={total historical weight of unique miners $\sum_{k=n+1}^{n+360} r_k$ (\%)},
+            grid=major,
+            ymin=0,
+            ymax=100,
+        ]
+        \addplot+[sharp plot] coordinates
+            {(2,62.57) (4,65.60) (6,63.91)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Total historical weight $H\!W$ of unique miners of the 360 new blocks from previous blocks $n$.}
+    \label{fig2}
+    \end{figure}    
+    
+The cost of attacking such a chain under regular Ethereum PoW protocol is $361$ Ether. Under HWD-PoW protocol, if an attacker appeared in $1\%$ of pervious blocks, the total cost of performing an attack will be calculated as follow,
 \begin{equation}
     Cost = r_i * W + \frac{360 * 60\%}{r_i}\label{eq}
 \end{equation}
-The actual cost of the three scenarios under HWD-PoW protocol are 41,601 Ethers, 61,601 Ethers and 81,601 Ethers respectively. Compared to the original PoW protocol, the cost increases are 114, 170 and 225 times respectively.
+The actual cost of the three scenarios under HWD-PoW protocol are 41,601 Ethers, 61,601 Ethers and 81,601 Ethers respectively. Compared to the original PoW protocol, the cost increases are 114, 170 and 225 times respectively. See Fig.~\ref{fig3}.
+
+\begin{figure}[htbp]
+    \begin{tikzpicture}
+    \begin{axis}[
+        xlabel={Ethereum mainnet block number $n$ (million)},
+        ylabel={cost to perform a 51\% attack (Ethers)},
+        ymode=log,
+        ymax=1000000,
+        grid=major,
+        legend entries={$\text{PoW}$,$\text{HWD-PoW}$},
+        legend style={at={(0.03,0.87)},anchor=west},
+    ]
+    \addplot+[sharp plot] coordinates
+        {(2,361) (4,361) (6,361)};
+    \addplot+[sharp plot] coordinates
+        {(2,41601) (4,61601) (6,81601)};
+    \end{axis}
+\end{tikzpicture}
+\caption{Comparing the cost of perform a 51\% attack, PoW vs. HWD-PoW.}
+\label{fig3}
+\end{figure}    
 
 \section{Conclusion}
  
