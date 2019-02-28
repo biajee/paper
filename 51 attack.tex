@@ -3,7 +3,7 @@
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic}
+% \usepackage{algorithmic}
 \usepackage{graphicx}
 \graphicspath{ {images/} }
 \usepackage{textcomp}
@@ -11,6 +11,11 @@
 \usepackage{filecontents}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+
 \pgfplotsset{compat=1.10}
 
 
@@ -104,7 +109,7 @@ The attacker needs to spend hashrate $p'$ in the original branch for a time dura
     p' > p^{0}\label{eq}
 \end{equation}
 
-As a result, the revealed malicious branch $l$ will be longer than original branch $w-l$. 
+As a result, the revealed malicious branch $b'$ will be longer than original branch $b$. 
 At the reveal time, \text{$H\!W\!D$} of the original branch is,
 \begin{equation}
     H\!W\!D_0 = \sum_{k=0}^{l} r_{k}^{0} =  \frac{1}{2} - \delta\label{eq}
@@ -127,7 +132,7 @@ and
 \end{equation}
 To summarize, the minimal cost of the attacker is to prepare mining for $(w-l)$ duration with hashrate $p^{0} *(1/2+l/(4w-2l))$.
 
-For a typical attack, $l$ needs to be around 50-300 blocks to allow token withdrawal from a token exchange. From below section, the change of miners is not very frequent. We can easily set $w > 1 month$ to increase the history weight. With $w = 100,000$ blocks, the robustness against attack is increased by over 100 times. 
+For a typical attack, $l$ needs to be around 50-300 blocks to allow token withdrawal from a token exchange. From below section, the change of miners is not very frequent. We can easily set $w > 1\ \text{month}$ to increase the history weight. With $w = 100,000$ blocks, the robustness against attack is increased by over 100 times. 
 
 Although we cannot totally avoid 51\% attacks, we can dramatically increased the money cost over a long time prepare process of an potential attack by at least two orders of magnitude. Also, because attacker needs to spend quite a long time to prepare, the attack is much less likely to happen as the long period of time causes a lot of opportinuty cost and uncertainty.  
 
@@ -151,8 +156,51 @@ Meaning, the system discourages sudden hash power switch from one set of miners 
 
 With such an enhanced requirement, if $s=0.25$, an attacker needs to have two times of the current hashrate within time duration $w$. This means an attacker needs to keep some hashrate in the original branch, and twice more in the malicious branch to compensate for the effect. Therefore, by introducing such a requirement, we double the time cost (and tripled the money cost) to perform an attack to the original Historical Weighted Difficulty algorithm. For higher $s$, attacker needs to spend much more hashrate than the minimal case. 
 
-\section{HWD algorithm}
-In this section, we will present the algorithm to perform HWD based branch selection.  
+\section{$H\!W\!D$ algorithm}
+In this section, we will present the algorithm to perform $H\!W\!D$ based branch selection.
+
+Below is the pseudo code to calculate the $H\!W\!D$
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+\begin{algorithm}
+\caption{Calculation of $H\!W\!D$}\label{euclid}
+\begin{algorithmic}[1]
+\Function{HwdCalculation}{$W, B$}
+\Comment{Where W - array of historic blocks window, B - array of branch blocks}
+    \State ${H\!W} = 0$
+    \State $d = 0$
+    \State $w = Length(W)$
+    \State $l = Length(B)$
+    \State Let $R[1 \ldots l]$ be new arrays
+    
+    \For{$i = 1$ to $l$}
+    \Comment{Calculate miner appearance frequency in historic blocks window}
+        \State $R[i] = 0$
+        \For{$j = 1$ to $w$}
+            \If {${Miner(W[j])}=={Miner(B[i])}$}
+                \State $R[i] += 1$
+            \EndIf
+            \State $R[i] /= w$
+        \EndFor
+    \EndFor
+
+    \For{$k = 1$ to ${Length(B)}$}
+    \Comment{Sum Historic Weight}
+        \State ${H\!W} = {H\!W} + R[k]$
+    \EndFor
+
+    \For{$k = 1$ to ${Length(B)}$}
+    \Comment{Sum branch difficulty}
+        \State $d = d + Diff(B[k])$
+    \EndFor
+
+    \State ${H\!W\!D} = {H\!W} * d$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 
 \section{Real data statistics from Ethereum}
