@@ -64,22 +64,24 @@ Now, let us look at how Historical Weight Difficulty scheme works to defend the 
 
 (1) First, record each miner’s block generation frequency for history windows $W$:
 \begin{equation}
-r_i=\frac{(block\ mined\ by\ node\ i)}{(total\ block\ generated\ in\ window\ W)}\label{eq}
+r_i=\frac{(blocks\ mined\ by\ node\ i)}{(total\ block\ number\ generated\ in\ window\ W)}\label{eq}
 \end{equation}
 where $\sum_{i=0}^{n}r_i = 1$
 
 (2) Each block is then signed by miner's private key. By doing this, miners will not be able to counterfeit the miner address.
 
-(3) When a split happens, Historical Weighted Difficulty \text{$H\!W\!D$}  is calculated. For any miner $k$ in the branch $b$,
+(3) When a split is detected, Historical Weighted Difficulty \text{$H\!W\!D$} is calculated for each branch at each peer node in the following way: for any unique miner $k$ in the branch $b$,
 \begin{equation}
     H\!W\!D_b = \sum_{k=0}^{l}r_k\label{eq}
 \end{equation}
 
-(4) Peer nodes compare two different \text{$H\!W\!D$}'s from two branches. The branch with greater \text{$H\!W\!D$} will be selected.
+Please note that only unique miner's generation frequency is counted. If one node mined multiple blocks, it is only counted once. This is to discourage single high hashrate miner taking over block generation, thus encourage the decentralization of mining. It also increase the difficulty of attack.
 
-Scenario 1: If the attacker just brings in temporary new hashrate power, even if the hidden branch is longer in difficulty, but the miner of the new branch is relatively new to the system, so the $r_i$ of the blocks is very low. The corresponding \text{$H\!W\!D$} will be very little compared to the original branch. No peer node in the original branch will switch to the attacker branch. 
+(4) Each peer node compares two different \text{$H\!W\!D$}'s from two branches. The branch with greater \text{$H\!W\!D$} will be selected.
 
-Scenario 2: In order to gain the historical weight of the miner, the attacker can mine in the original branch for a while to make itself included in the history. Therefore, when it switches to hidden branch, its \text{H\!W\!D} will be greater. 
+The immediate result is clear: if the attacker just brings in temporary new hashrate power, even if the hidden branch is longer in difficulty, but the miner of the new branch is relatively new to the system, so the $r_i$ of the blocks is very low. The corresponding \text{$H\!W\!D$} will be very small compared to the original branch. No peer node in the original branch will switch to the attacker branch. This scheme can easily defend rent-and-attack case. 
+
+If the attacker wants to make node to switch his raudulent branch, he will need to produce higher \text{$H\!W\!D$} value. The attacker needs to mine in the original branch for a while to make itself included in the history. Therefore, when it switches to hidden branch, its \text{H\!W\!D} will be greater. 
 
 Suppose $p'$ is the attacker miners' hashrate, $p0$ is the honest miners' hashrate.
 
@@ -89,38 +91,48 @@ Suppose $p'$ is the attacker miners' hashrate, $p0$ is the honest miners' hashra
 \label{fig}
 \end{figure}
 
-Let's look at the cost of this setup. The attacker needs to spend hashrate $p'$ in the original branch for a time duration $t'$. The optimum spending of $p'$ is to mine for $w/2$ period and then switch $p'$ to hidden branch. 
+The attacker needs to spend hashrate $p'$ in the original branch for a time duration $t'$. The optimum spending of $p'$ is to mine for $w/2$ period and then switch $p'$ to hidden branch at attack point show in Fig 1. In order for attack to be successful, we have
 
-At attack time point, assume
 \begin{equation}
-    H\!W\!D_b= \sum_{k=0}^{l}r'_k=\frac{1}{2} + \delta\label{eq}
+    p' > p^{0}\label{eq}
 \end{equation}
-In order for attack to be successful, At the reveal time, \text{$H\!W\!D$} of the malicious branch is,
-\begin{equation}
-    H\!W\!D_b= (\frac{1}{2} + \delta) * \frac{w-l}{w}\label{eq}
-\end{equation}
-\text{$H\!W\!D$} of the original branch is,
+
+As a result, the revealed malicious branch $l$ will be longer than original branch $w-l$. 
+At the reveal time, \text{$H\!W\!D$} of the original branch is,
 \begin{equation}
     H\!W\!D_0 = \sum_{k=0}^{l} r_{k}^{0} =  \frac{1}{2} - \delta\label{eq}
 \end{equation}
-Therefore, the following condition must satisfy,
+
+Here \delta is the minimal marginal difference accepted by peer node. 
+
+So, \text{$H\!W\!D$} of the malicious branch is
+\begin{equation}
+    H\!W\!D_b= (\frac{1}{2} + \delta) * \frac{w-l}{w}\label{eq}
+\end{equation}
+
+Therefore, we have,
 \begin{equation}
     (\frac{1}{2} + \delta) * \frac{w-l}{w} > \frac{1}{2}-\delta\label{eq}
 \end{equation}
-where
+and
 \begin{equation}
 \delta>\frac{l}{4w-2l}\label{eq}
 \end{equation}
-To summarize, the attacker needs to prepare for $(w-l)$ duration with hashrate $1/2+l/(4w-2l)$.
+To summarize, the minimal cost of the attacker is to prepare mining for $(w-l)$ duration with hashrate $p^{0} *(1/2+l/(4w-2l))$.
 
-For a typical attack, $l$ needs to be around 100-500 blocks to allow token withdrawal from a token exchange. We need to have $w > 1 month$ to increase the history weight to attack. With $w = 100,000$, the robustness is increased by over 100 times. 
+For a typical attack, $l$ needs to be around 50-300 blocks to allow token withdrawal from a token exchange. From below section, the change of miners is not very frequent. We can easily set $w > 1 month$ to increase the history weight. With $w = 100,000$ blocks, the robustness against attack is increased by over 100 times. 
 
-Although we cannot totally avoid 51\% attacks, in the above scenarios, we increased the money cost and time cost of such an attack by at least two orders of magnitude. And time cost is more expensive as the chances of malicious behavior will have more chance to be discovered. 
+Although we cannot totally avoid 51\% attacks, we can dramatically increased the money cost over a long time prepare process of an potential attack by at least two orders of magnitude. Also, because attacker needs to spend quite a long time to prepare, the attack is much less likely to happen as the long period of time causes a lot of opportinuty cost and uncertainty.  
 
 
-\section{Additional enforcement scheme}
+\section{Additional improvement schemes}
 
-Also, this mechanism can be more secured if we introduce another condition, such as requiring the new branch posses a certain amount of miner overlap with the old branch. Under such a condition, in order for a branch switch to happen, one needs to satisfy not only the \text{$H\!W\!D$} condition,
+Orthogonal to above mentioned HWD scheme, more improvement schemes can be applied on top of that. 
+
+The first approach is to post a cap of $r_i < r_c$, which means single miner can never be counted more than $r_c$ even it generates more blocks within the history window. The miners could purposely split the mining hashrate into miltiple miners to make sure each one below $r_c$. This will circumvent the approach. However, this is still useful, as it increase the cost for attackers to maintain multiple miner accounts. 
+
+
+This second approach is to post an overlap requirement between two split branches. To minimize the attack cost, attacker will focus its hashrate to the malicious branch. The overlap requires the new branch posses a certain amount of miner overlap with the old branch. Under such a condition, in order for a branch switch to happen, one needs to satisfy not only the \text{$H\!W\!D$} condition,
 \begin{equation}
     H\!W\!D_b>H\!W\!D_0\label{eq}
 \end{equation} 
@@ -130,7 +142,11 @@ but also, the overlap of old miners and new miners need to be greater than $s$,
 \end{equation}
 Meaning, the system discourages sudden hash power switch from one set of miners to another distinct set of miners.
 
-With such an enhanced requirement, if $s=0.25$, an attacker needs to have two times of the current hashrate with time duration $w$. This means an attacker needs to keep some hashrate in the original branch, and twice more in the malicious branch to compensate for the effect. Therefore, by introducing such a requirement, we double the time cost (and tripled the money cost) to perform an attack to the original Historical Weighted Difficulty algorithm.
+With such an enhanced requirement, if $s=0.25$, an attacker needs to have two times of the current hashrate with time duration $w$. This means an attacker needs to keep some hashrate in the original branch, and twice more in the malicious branch to compensate for the effect. Therefore, by introducing such a requirement, we double the time cost (and tripled the money cost) to perform an attack to the original Historical Weighted Difficulty algorithm. For higher $s$, attacker needs to spend much more hashrate than the minimal case. 
+
+\section{HWD algorithm}
+In this section, we will present the algorithm to perform HWD based branch selection.  
+
 
 \section{Real data statistics from Ethereum}
 
