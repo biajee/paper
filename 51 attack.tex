@@ -140,7 +140,7 @@ To summarize, the minimal cost of the attacker is to prepare mining for $(w-l)$ 
 
 For a typical attack, $l$ needs to be around 50-300 blocks to allow token withdrawal from a token exchange. From below section, the change of miners is not very frequent. We can easily set $w > 1\ \text{month}$ to increase the history weight. With $w = 100,000$ blocks, the robustness against attack is increased by over 100 times. 
 
-Although we cannot totally avoid 51\% attacks, we can dramatically increased the money cost over a long time prepare process of an potential attack by at least two orders of magnitude. Also, because attacker needs to spend quite a long time to prepare, the attack is much less likely to happen as the long period of time causes a lot of opportinuty cost and uncertainty.  
+Although we cannot totally avoid 51\% attacks, we can dramatically increase the money cost and time it takes to prepare a potential attack by at least two orders of magnitude. Also, because attacker needs to spend quite a long time to prepare, the attack is much less likely to happen as the long period of time causes a lot of opportinuty cost and uncertainty.  
 
 
 \section{Additional improvement schemes}
@@ -162,7 +162,7 @@ where $r_i$ are the miners' frequency of original branch, and $r_k$ are the mine
 
 Meaning, the system discourages sudden hash power switch from one set of miners to another distinct set of miners.
 
-With such an enhanced requirement, if $s=0.25$, an attacker needs to have two times of the current hashrate within time duration $w$. This means an attacker needs to keep some hashrate in the original branch, and twice more in the malicious branch to compensate for the effect. Therefore, by introducing such a requirement, we double the time cost (and tripled the money cost) to perform an attack to the original Historical Weighted Difficulty algorithm. For higher $s$, attacker needs to spend much more hashrate than the minimal case. 
+With such an enhanced requirement, if $s=0.25$, an attacker needs to have three times of the current hashrate within time duration $w$. This means an attacker needs to keep some hashrate in the original branch, and twice more in the malicious branch to compensate for the effect. Therefore, by introducing such a requirement, we double the time cost (and tripled the money cost) to perform an attack to the original Historical Weighted Difficulty algorithm. For higher $s$, attacker needs to spend much more hashrate than the minimal case. 
 
 \section{$H\!W\!D$ algorithm}
 In this section, we will present the algorithm to perform $H\!W\!D$ based branch selection.
@@ -372,7 +372,7 @@ The actual cost of the three scenarios under HWD-PoW protocol are 41,601 Ethers,
 
 \section{Conclusion}
  
-In this paper, we have proposed an approach to increase the cost of a successful double-spending attack on Proof-of-Work types of Blockchain protocols. The proposed approach reads the appearance rate of miners in history blocks and calculates the total Historical Weighted Difficulty. We demonstrated in three real Ethereum Mainnet scenarios that the cost of attack is increased by more than 100 times in these scenarios.
+In this paper, we have proposed an approach to increase the cost of a successful 51\% double-spending attack on Proof-of-Work types of Blockchain protocols. The proposed approach reads the appearance rate of miners in history blocks and calculates the total Historical Weighted Difficulty. We demonstrated in three real Ethereum Mainnet scenarios that the cost of attack is increased by more than 100 times in these scenarios.
 
 \section*{Acknowledgment}
 
