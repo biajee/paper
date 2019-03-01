@@ -67,7 +67,7 @@ Most recently, Ethereum Classic\cite{b11} was attacked. Large amount of ETCs wer
 
 \section{Historical weighted difficulty}
 
-We propose a technique to calculate the total difficulty of a certain branch with the consideration of the miners addresses existence frequency in the previous blocks. We call this protocol Historical Weighted Difficulty based Proof-of-Work (HWD-PoW) protocol. The assumption is that in an honest blockchain branch, miners of new blocks will most likely be the miners who mined the previous blocks, and the distribution will reflect the ratio in history. Furthermore, in a malicious blockchain branch, distribution of miners of new blocks will most likely be controlled by the attackers, which will be different from the regular distribution of miners in the history. Therefore, when history of miners' distribution is considered, one can easily distinguish an honest blockchain branch from a malicious one.
+We propose a technique to calculate the total difficulty of a certain branch with the consideration of the miners addresses existence frequency in the previous blocks. We call this protocol Historical Weighted Difficulty based Proof-of-Work (\text{$H\!W\!D$}-PoW) protocol. The assumption is that in an honest blockchain branch, miners of new blocks will most likely be the miners who mined the previous blocks, and the distribution will reflect the ratio in history. Furthermore, in a malicious blockchain branch, distribution of miners of new blocks will most likely be controlled by the attackers, which will be different from the regular distribution of miners in the history. Therefore, when history of miners' distribution is considered, one can easily distinguish an honest blockchain branch from a malicious one.
 
 Under the proposed the mechanism, branch with miners of less representation in the previous blocks will earn less weight in the total difficulty calculation. Therefore, to perform a 51\% attack, the malicious miners have two choices: either to mine a much longer branch, or to build up miner representation in the previous blocks to build up the credibility.
 
@@ -374,9 +374,9 @@ The result indicates that with \text{$H\!W\!D$} scheme, the cost of attacking th
 
 \section{Conclusion}
  
-In this paper, we proposed an approach to increase the cost of a successful 51\% double-spending attack on Proof-of-Work types of Blockchain protocols. The proposed approach utilizes the frequency rate of miners in history blocks and calculates the total Historical Weighted Difficulty to determine if branch switch is needed. We demonstrated in three real Ethereum Mainnet scenarios that the cost of attack is increased by more than 1000 times with HWD-PoW scheme.
+In this paper, we proposed an approach to increase the cost of a successful 51\% double-spending attack on Proof-of-Work types of Blockchain protocols. The proposed approach utilizes the frequency rate of miners in history blocks and calculates the total Historical Weighted Difficulty to determine if branch switch is needed. We demonstrated in three real Ethereum Mainnet scenarios that the cost of attack is increased by more than 1000 times with \text{$H\!W\!D$}-PoW scheme.
 
-Our HWD-PoW scheme could be applied to all other PoW based blockchains. This can improve smaller blockchain's security drastically with easy integration. 
+Our \text{$H\!W\!D$}-PoW scheme could be applied to all other PoW based blockchains. This can improve smaller blockchain's security drastically with easy integration. 
 
 \section*{Acknowledgment}
 
