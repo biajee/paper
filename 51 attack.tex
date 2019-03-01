@@ -49,7 +49,7 @@ Developed by Satoshi Nakamoto in 2009 \cite{b1}, Bitcoin is the first decentrali
 
 Proof-of-Work (PoW) is the most commonly used consensus protocol in blockchain-based cryptocurrencies. Major blockchains such as Bitcoin and Ethereum are both using different variety of PoW protocol. In PoW protocol, each node is competing to find a nonce value to produce a hash that meets a certain criteria. The difficulty of calculating such a nonce value can be calculated based on the criteria of the hash value. When such a nonce value is found, a block is generated and broadcasted to the P2P network. Depending on different varieties of protocol, peer nodes always accept the longest chain or the chain with the largest total difficulty repeatedly to continuously expand the blockchain. PoW utilizes this mechanism to determine which node has the right to seal a block. This process is also called mining.
 
-In such a mechanism, a peer node with greater computing speed (or sometimes called hash rate power) can calculate nonce value faster than a peer node with less computing speed and thus has a higher probability of getting the right to seal a new block. However, this mechanism has a drawback. A selfish node with hash rate power higher than those of the rest nodes combined can compromise the blockchain system by causing double spending and selfish mining, etc \cite{b3}\cite{b4}. This is commonly referred to as a 51\% attack. Some studies have proposed ways to avoid such kind of attacks. Eyal and Sirer \cite{b5} in 2014 proposed a Two-Phase PoW(2P-PoW) solution preventing the formation of a mining pool with huge hash power. In this solution, the second phase PoW requires signature from the private key of the coinbase address. When the second PoW is sufficiently difficult, pool operators have to give out this private key to the pool miners in order to perform a calculation faster than all the peer nodes. Ruffing et al. \cite{b6} in 2015 proposed contracts to penalize attackers attempting a double-spending attack. Solat and Potop-Butucaru proposed ZeroBlock \cite{b7} in 2016. The mechanism in ZeroBlock requires a block to be accepted by its peers within certain time interval after the timestamp of the block. Otherwise, the block is expired. This mechanism prevents attacker nodes from selfish mining for a long period of time. J. Bae and H. Lim \cite{b8} in 2018 proposed a solution to randomly select a certain group of miners to have the right to mine the next block.
+In such a mechanism, a peer node with greater computing speed (or sometimes called hashrate power) can calculate nonce value faster than a peer node with less computing speed and thus has a higher probability of getting the right to seal a new block. However, this mechanism has a drawback. A selfish node with hashrate power higher than those of the rest nodes combined can compromise the blockchain system by causing double spending and selfish mining, etc \cite{b3}\cite{b4}. This is commonly referred to as a 51\% attack. Some studies have proposed ways to avoid such kind of attacks. Eyal and Sirer \cite{b5} in 2014 proposed a Two-Phase PoW(2P-PoW) solution preventing the formation of a mining pool with huge hash power. In this solution, the second phase PoW requires signature from the private key of the coinbase address. When the second PoW is sufficiently difficult, pool operators have to give out this private key to the pool miners in order to perform a calculation faster than all the peer nodes. Ruffing et al. \cite{b6} in 2015 proposed contracts to penalize attackers attempting a double-spending attack. Solat and Potop-Butucaru proposed ZeroBlock \cite{b7} in 2016. The mechanism in ZeroBlock requires a block to be accepted by its peers within certain time interval after the timestamp of the block. Otherwise, the block is expired. This mechanism prevents attacker nodes from selfish mining for a long period of time. J. Bae and H. Lim \cite{b8} in 2018 proposed a solution to randomly select a certain group of miners to have the right to mine the next block.
 
 In the present paper, we introduce a new solution by utilizing a historical weighted difficulty to determine the total chain difficulty. In such a modified algorithm, a branch of blockchain has a greater total historical weighted difficulty if the miners of such a branch have a higher coverage rate in previous blocks. We demonstrate that, in reality, such an algorithm can increase the money cost and the time cost of 51\% attacks by a factor of at least two orders of magnitude.
 
@@ -61,7 +61,7 @@ Cost=(P*R)*f*t\label{eq_cost}
 where $P$ is the token price, $R$ is the block reward, $f$ is the frequency of block generation speed, and $t$ stands for the duration of the attack.
 For many small blockchains, the cost to perform such an attack is only hundreds or thousands of US Dollars\cite{b9}.
 
-Another factor makes the Scenario worse is that hashrate could be easily accessible to anyone who can pay the right price. NiceHash\cite{b10} provides an open market for hashrate exchange. Anyone can easily pay with cryptocurrency to rent available hashrate to mine for the target blockchain. So an attacker can accumulate significant hashrate in short period of time to exceed the 51\% threshold. The attacker can double spend the token through a centralized exchange. The whole process only takes around 50-500 blocks. After that, attacker can release the rented hashrate and walk away with the profit. 
+Another factor that makes the Scenario worse is that hashrate could be easily accessible to anyone who can pay the right price. NiceHash\cite{b10} provides an open market for hashrate exchange. Anyone can easily pay with cryptocurrency to rent available hashrate to mine for the target blockchain. So an attacker can accumulate significant hashrate in short period of time to exceed the 51\% threshold. The attacker can double spend the token through a centralized exchange. The whole process only takes around 50-500 blocks. After that, attacker can release the rented hashrate and walk away with the profit. 
 
 Most recently, Ethereum Classic\cite{b11} was attacked. Large amount of ETCs were double-spent in attack branch length ranged from 50 to 150.
 
@@ -91,13 +91,13 @@ where
 \end{equation}
 where $r_k$ is the block generation frequency in the history window, $d_k$ is the difficulty of block $k$, and $l$ is the branch length.
 
-Please note that only unique miner's generation frequency is counted. If one miner address mined multiple blocks, it is only counted once. This is to discourage single high hashrate miner taking over block generation, thus encourage the decentralization of mining. It also increase the difficulty of attack.
+Please note that only unique miner's generation frequency is counted. If one miner address mined multiple blocks, it is only counted once. This is to discourage single high hashrate miners, thus encouraging the decentralization of mining. It also increase the difficulty of attack.
 
 (d) Each peer node compares two different \text{$H\!W\!D$}'s from two branches. The branch with greater \text{$H\!W\!D$} will be selected.
 
-The immediate result is clear: if the attacker just brings in temporary new hashrate power, even if the hidden branch is longer in difficulty, but the miner of the new branch is relatively new to the system, so the $r_i$ of the blocks is very low. The corresponding \text{$H\!W\!D$} will be very small compared to the original branch. No peer node in the original branch will switch to the attacker branch. This scheme can easily defend rent-and-attack case. 
+The immediate result is clear: if the attacker just brings in temporary new hashrate power, but the miner of the new branch is relatively new to the system, the $r_i$ of the blocks is very low, and the corresponding $H\!W\!D$ will be very small compared to the original branch. No peer node in the original branch will switch to the attacker branch. This scheme can easily defend rent-and-attack case. 
 
-If the attacker wants to make node to switch his fraudulent branch, he will need to produce higher \text{$H\!W\!D$} value. The attacker needs to mine in the original branch for a while to make itself included in the history. Therefore, when it switches to hidden branch, its \text{$H\!W\!D$} will be greater. 
+If the attacker wants to make nodes to switch his fraudulent branch, he will need to produce higher \text{$H\!W\!D$} value. The attacker needs to mine in the original branch for a while to make itself included in the history. Therefore, when it switches to hidden branch, its \text{$H\!W\!D$} will be greater. 
 
 Suppose $p_a$ is the attacker miners' hashrate, $p_o$ is the original honest miners' hashrate.
 
@@ -145,12 +145,12 @@ Although we cannot totally avoid 51\% attacks, we can dramatically increase the 
 
 \section{Additional improvement schemes}
 
-Orthogonal to above mentioned ${H\!W\!D}$ scheme, additional improvement schemes can be applied to further increase the cost of attack. 
+Orthogonal to the above-mentioned ${H\!W\!D}$ scheme, additional improvement schemes can be applied to further increase the cost of attack. 
 
-The first approach is to post a cap of $r_i < r_c$, which means single miner can never be counted more than $r_c$ even it generates more blocks within the history window. This approach will encourage more diversified mining pool. At the same time, the miners could purposely split the mining hashrate into multiple miners to make sure each one is below $r_c$. This will circumvent the diversification requirement. However, this is still useful, as it increase the cost for attackers to maintain multiple miner accounts. 
+The first approach is to post a cap of $r_i < r_c$, which means single miners can never be counted more than $r_c$ even it generates more blocks within the history window. This approach will encourage a more diversified mining pool. At the same time, the miners could purposely split the mining hashrate into multiple miners to make sure each one is below $r_c$. This will circumvent the diversification requirement. However, this is still useful, as it increase the cost for attackers to maintain multiple miner accounts. 
 
 
-The second approach is to post an overlap requirement between two split branches. To minimize the cost of attack, attacker will focus its hashrate to the malicious branch. The overlap requires the new branch posses a certain amount of miner overlap with the old branch. Under such a condition, in order for a branch switch to happen, one needs to satisfy not only the \text{$H\!W\!D$} condition,
+The second approach is to post an overlap requirement between two split branches. To minimize the cost of attack, an attacker will focus its hashrate to the malicious branch. The overlap requires the new branch poses a certain amount of miner overlap with the old branch. Under such a condition, in order for a branch switch to happen, one needs to satisfy not only the \text{$H\!W\!D$} condition,
 \begin{equation}
     H\!W\!D_a>H\!W\!D_o\label{eq_hwd_ineq}
 \end{equation} 
@@ -160,7 +160,7 @@ but also, the overlap between two sets of miners need to be greater than $s$,
 \end{equation}
 where $r_i$ are the miners' frequency of original branch, and $r_k$ are the miners' frequency of attacker branch. 
 
-Meaning, the system discourages sudden hash power switch from one set of miners to another distinct set of miners.
+Meaning, the system discourages sudden hashrate power switches from one set of miners to another distinct set of miners.
 
 With such an enhanced requirement, if $s=0.25$, an attacker needs to have three times of the current hashrate within time duration $w$. This means an attacker needs to keep some hashrate in the original branch, and twice more in the malicious branch to compensate for the effect. Therefore, by introducing such a requirement, we double the time cost and triple the money cost to perform an attack to the original Historical Weighted Difficulty algorithm. For higher $s$, attacker needs to spend even more hashrate than the minimal case. 
 
@@ -261,23 +261,23 @@ Miner                                      & Weight   & Amount & Weight\_in\_2M 
 \hline
 Miner                                      & Weight   & Amount & Weight\_in\_2M\textasciitilde4M \\
 \hline
-0x1e99......0341 & 0.138889 & 50 & 0.079728  \\
-0x2a65......8226 & 0.072222 & 26 & 0.167880  \\
-0x4bb9......1b01 & 0.016667 & 6 & 0.058859  \\
-0x52bc......e3b5 & 0.075000 & 27 & 0.045849  \\
-0x73b8......7fea & 0.005556 & 2 & 0.007535  \\
 0x829b......a830 & 0.283333 & 102 & 0.012240  \\
-0x8727......87a5 & 0.005556 & 2 & 0.000331  \\
+0xea67......8ec8 & 0.236111 & 85 & 0.169016  \\
+0x1e99......0341 & 0.138889 & 50 & 0.079728  \\
+0xb293......0347 & 0.086111	& 31 & 0.032167  \\
+0x52bc......e3b5 & 0.075000 & 27 & 0.045849  \\
+0x2a65......8226 & 0.072222 & 26 & 0.167880  \\
+0xc0ea......2949 & 0.033333 & 12 & 0.072130  \\
+0x4bb9......1b01 & 0.016667 & 6 & 0.058859  \\
+0xf3b9......c2fb & 0.013889 & 5 & 0.015585  \\
 0x9435......7805 & 0.008333 & 3 & 0.003338  \\
 0x9633......a11c & 0.008333 & 3 & 0.005184  \\
-0xa027......e88f & 0.002778 & 1 & 0.001355  \\
+0x73b8......7fea & 0.005556 & 2 & 0.007535  \\
+0x8727......87a5 & 0.005556 & 2 & 0.000331  \\
 0xa42a......e84e & 0.005556 & 2 & 0.033483  \\
 0xa4aa......7f0d & 0.005556 & 2 & 0.003277  \\
 0xa9a9......51fc & 0.002778 & 1 & 0.000911  \\
-0xb293......0347 & 0.086111	 & 31 & 0.032167  \\
-0xc0ea......2949 & 0.033333 & 12 & 0.072130  \\
-0xea67......8ec8 & 0.236111 & 85 & 0.169016  \\
-0xf3b9......c2fb & 0.013889 & 5 & 0.015585  \\
+0xa027......e88f & 0.002778 & 1 & 0.001355  \\
 
 \hline
 \multicolumn{4}{l}{$^{\mathrm{a}}$Total miners' weight from previous 2 million blocks is 70.89\%.}
@@ -292,33 +292,33 @@ Miner                                      & Weight   & Amount & Weight\_in\_2M\
 \hline
 Miner                                      & Weight   & Amount & Weight\_in\_4M\textasciitilde6M \\
 \hline
-0x0019......99e8 & 0.002778 & 1 & 0.000784  \\
-0x1ca4......be1a & 0.019444 & 7 & 0.000904  \\
-0x2a65......8226 & 0.027778 & 10 & 0.035354  \\
-0x35f6......738d	 & 0.005556 & 2 & 0.000325  \\
-0x4a07......a82b & 0.005556 & 2 & 0.002980  \\
-0x4bb9......1b01 & 0.002778 & 1 & 0.015724  \\
-0x52bc......e3b5 & 0.116667 & 42 & 0.125527  \\
-0x52e4......f13c	 & 0.013889 & 5 & 0.007205  \\
+0xea67......8ec8 & 0.322222 & 116 & 0.259396  \\
 0x5a0b......9c4c & 0.133333 & 48 & 0.108651  \\
-0x6a7a......9b1f	 & 0.008333 & 3 & 0.008874  \\
-0x70ae......e21d & 0.008333 & 3 & 0.002358  \\
 0x829b......a830 & 0.127778 & 46 & 0.210382  \\
+0x52bc......e3b5 & 0.116667 & 42 & 0.125527  \\
+0xb293......0347 & 0.105556 & 38 & 0.098562  \\
+0xf3b9......c2fb & 0.036111 & 13 & 0.023992  \\
+0x2a65......8226 & 0.027778 & 10 & 0.035354  \\
+0x1ca4......be1a & 0.019444 & 7 & 0.000904  \\
+0x52e4......f13c & 0.013889 & 5 & 0.007205  \\
+0xd958......4012 & 0.013889 & 5 & 0.000263  \\
+0xb75d......22f5 & 0.011111 & 4 & 0.005698  \\
+0xd438......1807 & 0.011111 & 4 & 0.000594  \\
+0x6a7a......9b1f & 0.008333 & 3 & 0.008874  \\
+0x70ae......e21d & 0.008333 & 3 & 0.002358  \\
+0x35f6......738d & 0.005556 & 2 & 0.000325  \\
+0x4a07......a82b & 0.005556 & 2 & 0.002980  \\
+0xe4bd......0649 & 0.005556 & 2 & 0.003712  \\
+0x0019......99e8 & 0.002778 & 1 & 0.000784  \\
+0x4bb9......1b01 & 0.002778 & 1 & 0.015724  \\
 0x914d......1dcd & 0.002778 & 1 & 0.000168  \\
 0x92e3......b549 & 0.002778 & 1 & 0.000822  \\
 0x9435......7805 & 0.002778 & 1 & 0.007071  \\
-0xb293......0347 & 0.105556 & 38 & 0.098562  \\
-0xb75d......22f5	 & 0.011111 & 4	 & 0.005698  \\
-0xb8f8......5453	 & 0.002778 & 1 & 0.000668  \\
+0xb8f8......5453 & 0.002778 & 1 & 0.000668  \\
 0xcc16......e610 & 0.002778 & 1 & 0.002227  \\
-0xd100......4fce	 & 0.002778 & 1 & 0.000470  \\
+0xd100......4fce & 0.002778 & 1 & 0.000470  \\
 0xd380......636d & 0.002778 & 1 & 0.000002  \\
-0xd438......1807 & 0.011111 & 4 & 0.000594  \\
-0xd958......4012 & 0.013889 & 5 & 0.000263  \\
-0xd9cf......06e3	 & 0.002778 & 1 & 0.000108  \\
-0xe4bd......0649 & 0.005556 & 2 & 0.003712  \\
-0xea67......8ec8 & 0.322222 & 116 & 0.259396  \\
-0xf3b9......c2fb & 0.036111 & 13 & 0.023992  \\
+0xd9cf......06e3 & 0.002778 & 1 & 0.000108  \\
 
 \hline
 \multicolumn{4}{l}{$^{\mathrm{a}}$Total miners' weight from previous 2 million blocks is 92.28\%.}
@@ -345,7 +345,7 @@ The total weight of 360-block miners has a strong correlation with the distribut
     \label{fig2}
     \end{figure}    
     
-We further created an simulation to perform 51\% attack at the point of block \#2M, \#4M and \#6M, and computed the result for window length of 1M and 2M. To make it close to real case, we randomly flagged 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we picked the top 360 miners as the attacking branch generator. If the $H\!W\!D$ of attacking branch is higher than those of the original branch, we marked it as a successful attack. 
+We further created a simulation to perform 51\% attacks at the point of block \#2M, \#4M and \#6M, and computed the result for window length of 1M and 2M. To make it close to real case, we randomly flagged 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we picked the top 360 miners as the attacking branch generator. If the $H\!W\!D$ of attacking branch is higher than those of the original branch, we marked it as a successful attack. 
 
 In the ideal case, the preparation should be at least longer than the specified window. However, given the correlation of distribution, the preparation period was slightly shorter. We ran the simulation multiple times for each window to get the average accumulated cost. Here we ignored the mining reward halving effect over the time. Result is below Fig.~\ref{fig3}.
 
