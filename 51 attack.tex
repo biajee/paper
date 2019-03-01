@@ -67,7 +67,7 @@ Most recently, Ethereum Classic\cite{b11} was attacked. Large amount of ETCs wer
 
 \section{Historical weighted difficulty}
 
-We propose a technique to calculate the total difficulty of a certain branch with the consideration of the miners addresses existence frequency in the previous blocks. We call this protocol Historical Weighted Difficulty based Proof-of-Work (HWD-PoW) protocol. The assumption is that in an honest blockchain branch, miners of new blocks will most likely be the miners who mined the previous blocks, and the distribution will reflect the ratio in hisotry. Furthermore, in a malicious blockchain branch, distribution of miners of new blocks will most likely be controlled by the attackers, which will be diffferent from the regular distribution of miners in the history. Therefore, when distribution of miners of mining history is considered, one can easily distinguish an honest blockchain branch from a malicious one.
+We propose a technique to calculate the total difficulty of a certain branch with the consideration of the miners addresses existence frequency in the previous blocks. We call this protocol Historical Weighted Difficulty based Proof-of-Work (H\text{$H\!W\!D$}WD-PoW) protocol. The assumption is that in an honest blockchain branch, miners of new blocks will most likely be the miners who mined the previous blocks, and the distribution will reflect the ratio in hisotry. Furthermore, in a malicious blockchain branch, distribution of miners of new blocks will most likely be controlled by the attackers, which will be diffferent from the regular distribution of miners in the history. Therefore, when distribution of miners of mining history is considered, one can easily distinguish an honest blockchain branch from a malicious one.
 
 Under the proposed the mechanism, branch with miners of less representation in the previous blocks will earn less weight in the total difficulty calculation. Therefore, to perform a 51\% attack, the malicious miners have two choices: either to mine a much longer branch, or to build up miner representation in the previous blocks to build up the credibility.
 
@@ -345,7 +345,7 @@ The total weight of 360-block miners has a strong correlation with the distribut
     \label{fig2}
     \end{figure}    
     
-We further created an simulation to perform 51\% attack at the point of block \#2M, \#4M and \#6M, and computed the result for window length of 1M and 2M. To make it close to real case, we randomly flaged 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we picked the top 360 miners as the attack branch generator. If the attack branch HWD is higher than original branch HWD, we marked it as a successful attack. 
+We further created an simulation to perform 51\% attack at the point of block \#2M, \#4M and \#6M, and computed the result for window length of 1M and 2M. To make it close to real case, we randomly flaged 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we picked the top 360 miners as the attack branch generator. If the attack branch \text{$H\!W\!D$} is higher than original branch \text{$H\!W\!D$}, we marked it as a successful attack. 
 
 In the idea case, the preparation should be at least longer than the specified window. However, given the distribution of correlation, the preparation period was slightly shorter. We ran the simulation multiple time for each window to get the average accumulated cost. Here we ignored the mining reward halving effect over the time. Result is below Fig.~\ref{fig3}.
 
@@ -365,18 +365,18 @@ In the idea case, the preparation should be at least longer than the specified w
     \addplot+[sharp plot] coordinates {(2,361) (4,361) (6,361)};
     \end{axis}
 \end{tikzpicture}
-\caption{Comparing the cost of perform a 51\% attack, HWD-PoW(1M windows, 2M windows) vs. PoW}
+\caption{Comparing the cost of perform a 51\% attack, \text{$H\!W\!D$}-PoW(1M windows, 2M windows) vs. PoW}
 \label{fig3}
 \end{figure}    
 
-The result shows that with HWD scheme, the cost of attacking regular Ethereum blockchain increases by more than 1000 times, if we set the window size to be 1M and 2M. In real application, the windows could be shorter to speed up the process. We suggest window size is at least 100k, making the cost of attack is 100x more.
+The result shows that with \text{$H\!W\!D$} scheme, the cost of attacking regular Ethereum blockchain increases by more than 1000 times, if we set the window size to be 1M and 2M. In real application, the windows could be shorter to speed up the process. We suggest window size is at least 100k, making the cost of attack is 100x more.
 
 
 \section{Conclusion}
  
-In this paper, we have proposed an approach to increase the cost of a successful 51\% double-spending attack on Proof-of-Work types of Blockchain protocols. The proposed approach utilizes the frequency rate of miners in history blocks and calculates the total Historical Weighted Difficulty to determine if branch switch is needed. We demonstrated in three real Ethereum Mainnet scenarios that the cost of attack is increased by more than 100 times with HWD scheme.
+In this paper, we have proposed an approach to increase the cost of a successful 51\% double-spending attack on Proof-of-Work types of Blockchain protocols. The proposed approach utilizes the frequency rate of miners in history blocks and calculates the total Historical Weighted Difficulty to determine if branch switch is needed. We demonstrated in three real Ethereum Mainnet scenarios that the cost of attack is increased by more than 100 times with \text{$H\!W\!D$} scheme.
 
-Our HWD scheme could be applied to all other POW based blockchains. This can improve smaller blockchain's security dramatically with easy integration. 
+Our \text{$H\!W\!D$} scheme could be applied to all other POW based blockchains. This can improve smaller blockchain's security dramatically with easy integration. 
 
 \section*{Acknowledgment}
 
