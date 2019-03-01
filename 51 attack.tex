@@ -54,7 +54,7 @@ In such a mechanism, a peer node with greater computing speed (or sometimes call
 In the present paper, we introduce a new solution by utilizing a historical weighted difficulty to determine the total chain difficulty. In such a modified algorithm, a branch of blockchain has a greater total historical weighted difficulty if the miners of such a branch have a higher coverage rate in previous blocks. We demonstrate that, in reality, such an algorithm can increase the money cost and the time cost of 51\% attacks by a factor of at least two orders of magnitude.
 
 \section{51\% attack and cost}
-First, let us review the 51\% attack scheme. Assume the current hashrate is $p_o$, the attacker accumulates a greater hashrate power $p_a$ with \text{$p_a > p_o$}, and utilizes this hashrate power to compute a hidden branch $B_a$. The attacker performs double spending in two branches. The attacker then reveals hidden longer branch $B_a$ and invalidates all transactions in original branch $B_o$. The cost to launch such a 51\% attack is,
+First, let us review the 51\% attack scheme. Assume the current hashrate is $p_o$, the attacker accumulates a greater hashrate power $p_a$ with \text{$p_a > p_o$}, and utilizes this hashrate power to compute a hidden branch $b_a$. The attacker performs double spending in two branches. The attacker then reveals hidden longer branch $b_a$ and invalidates all transactions in original branch $b_o$. The cost to launch such a 51\% attack is,
 \begin{equation}
 Cost=(P*R)*f*t\label{eq_cost}
 \end{equation}
