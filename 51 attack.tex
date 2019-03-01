@@ -353,7 +353,7 @@ In the idea case, the preparation should be at least longer than the specified w
     \begin{tikzpicture}
     \begin{axis}[
         xlabel={Ethereum mainnet block number $n$ (million)},
-        ylabel={cost to perform a 51\% attack (Ethers)},
+        ylabel style={align=center}, ylabel={cost to perform a 51\% attack (Ethers)}\\{$cost = window * \sqrt{correlation\ rate}$},
         ymode=log,
         ymax=3000000,
         grid=major,
