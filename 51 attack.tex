@@ -73,7 +73,7 @@ Under the proposed the mechanism, branch with miners of less representation in t
 
 Now, let us look at how Historical Weight Difficulty scheme works to defend the 51\% attack. 
 
-(1) First, record each miner’s block generation frequency for history windows $W$:
+(a) First, record each miner’s block generation frequency for history windows $W$:
 \begin{equation}
 r_i=\frac{(blocks\ mined\ by\ node\ i)}{(total\ block\ number\ generated\ in\ window\ W)}\label{eq_frequency_rate}
 \end{equation}
@@ -83,9 +83,9 @@ where
     \label{eq_frequency_normalization}
 \end{equation}
 
-(2) Each block is then signed by miner's private key. By doing this, miners will not be able to counterfeit the miner identity.
+(b) Each block is then signed by miner's private key. By doing this, miners will not be able to counterfeit the miner identity.
 
-(3) When a split is detected, Historical Weighted Difficulty \text{$H\!W\!D$} is calculated for each branch at each peer node in the following way: for any unique miner $k$ in the branch $b$,
+(c) When a split is detected, Historical Weighted Difficulty \text{$H\!W\!D$} is calculated for each branch at each peer node in the following way: for any unique miner $k$ in the branch $b$,
 \begin{equation}
     H\!W\!D_b = H\!W_b * \!D_b = \sum_{k=0}^{l}r_k*\sum_{k=0}^{l}d_k\label{eq_hwd}
 \end{equation}
@@ -93,7 +93,7 @@ where $r_k$ is the block generation frequency in the history window, $d_k$ is th
 
 Please note that only unique miner's generation frequency is counted. If one node mined multiple blocks, it is only counted once. This is to discourage single high hashrate miner taking over block generation, thus encourage the decentralization of mining. It also increase the difficulty of attack.
 
-(4) Each peer node compares two different \text{$H\!W\!D$}'s from two branches. The branch with greater \text{$H\!W\!D$} will be selected.
+(d) Each peer node compares two different \text{$H\!W\!D$}'s from two branches. The branch with greater \text{$H\!W\!D$} will be selected.
 
 The immediate result is clear: if the attacker just brings in temporary new hashrate power, even if the hidden branch is longer in difficulty, but the miner of the new branch is relatively new to the system, so the $r_i$ of the blocks is very low. The corresponding \text{$H\!W\!D$} will be very small compared to the original branch. No peer node in the original branch will switch to the attacker branch. This scheme can easily defend rent-and-attack case. 
 
@@ -259,7 +259,7 @@ Miner                                      & Weight   & Amount & Weight\_in\_2M 
 \begin{center}
 \begin{tabular}{lclclcl}
 \hline
-Miner                                      & Weight   & Amount & Weight\_in\_2M\~4M \\
+Miner                                      & Weight   & Amount & Weight\_in\_2M\textasciitilde4M \\
 \hline
 0x1e99......0341 & 0.138889 & 50 & 0.079728  \\
 0x2a65......8226 & 0.072222 & 26 & 0.167880  \\
@@ -290,7 +290,7 @@ Miner                                      & Weight   & Amount & Weight\_in\_2M\
 \begin{center}
 \begin{tabular}{lclclcl}
 \hline
-Miner                                      & Weight   & Amount & Weight\_in\_4M\~6M \\
+Miner                                      & Weight   & Amount & Weight\_in\_4M\textasciitilde6M \\
 \hline
 0x0019......99e8 & 0.002778 & 1 & 0.000784  \\
 0x1ca4......be1a & 0.019444 & 7 & 0.000904  \\
@@ -326,7 +326,7 @@ Miner                                      & Weight   & Amount & Weight\_in\_4M\
 \end{center}
 \end{table}
 
-The total weight of 360-block miners is very similar in the history window, even the history we used is 2M blocks (about one year). The result is show in Fig.~\ref{fig2}. This reinforces our assumption that honest miner participation in the mining is relatively stable. Thus historical weight of mining history is a very valuable information we can utilize to fight against 51\% attack. We also observe that correlation of new miners with previous 2M blocks strengthened, as it indicates that Ethereum mining is going towards centralization. 
+The total weight of 360-block miners is very similar in the history window, even the history we used is 2M blocks (about one year). The result is showed in Fig.~\ref{fig2}. This reinforces our assumption that honest miner participation in the mining is relatively stable. Thus historical weight of mining history is a very valuable information we can utilize to fight against 51\% attack. We also observe that correlation of new miners with previous 2M blocks strengthened, as it indicates that Ethereum mining is going towards centralization. 
 
 \begin{figure}[htbp]
     \begin{tikzpicture}
@@ -345,9 +345,9 @@ The total weight of 360-block miners is very similar in the history window, even
     \label{fig2}
     \end{figure}    
     
-We further created an simulator to perform 51\% attack at the point of block \#2M, \#4M and \#6M. We compute the result for window length of 1M and 2M. To make it close to real case, we randomly flag 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we pick the top 360 miners as the attack branch generator. If the attack branch HWD is higher than original branch HWD, we mark it as a successful attack. 
+We further created an simulation to perform 51\% attack at the point of block \#2M, \#4M and \#6M, and computed the result for window length of 1M and 2M. To make it close to real case, we randomly flaged 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we picked the top 360 miners as the attack branch generator. If the attack branch HWD is higher than original branch HWD, we marked it as a successful attack. 
 
-In the idea case, the preparation should be at least longer than the specified window. However, given the distribution of correlation, the preparation period is slightly shorter. We run the simulation multiple time for each window to get the average accumlated cost. Here we ignore the mining reward halving effect over the time. Result is below Fig.~\ref{fig3}.
+In the idea case, the preparation should be at least longer than the specified window. However, given the distribution of correlation, the preparation period was slightly shorter. We ran the simulation multiple time for each window to get the average accumulated cost. Here we ignored the mining reward halving effect over the time. Result is below Fig.~\ref{fig3}.
 
 \begin{figure}[htbp]
     \begin{tikzpicture}
