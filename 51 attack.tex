@@ -353,19 +353,20 @@ In the ideal case, the preparation should be at least longer than the specified 
     \begin{tikzpicture}
     \begin{axis}[
         xlabel={Ethereum mainnet block number $n$ (million)},
-        ylabel style={align=center}, ylabel={cost to perform a 51\% attack (Ethers)}\\{$cost = window * \sqrt{correlation\ rate}$},
+        ylabel style={align=center}, ylabel={cost to perform a 51\% attack (Blocks)},
         ymode=log,
-        ymax=3000000,
+        ymax=100000,
         grid=major,
         legend entries={$\text{window\#1 1M}$,$\text{window\#2 2M}$,$\text{POW}$},
         legend style={at={(0.5,-0.2)},anchor=north}
     ]
-    \addplot+[sharp plot] coordinates  {(2,792148.9759) (4,841961.9944) (6,960624.7967)};
-    \addplot+[sharp plot] coordinates {(2,1584297.952) (4,1683923.989) (6,1921249.593)};
+    \addplot+[sharp plot] coordinates  {(2,30101.6610) (4,31994.5558) (6,36503.7423)};
+    \addplot+[sharp plot] coordinates {(2,42563.7488) (4,45240.3019) (6,51616.2916)};
     \addplot+[sharp plot] coordinates {(2,361) (4,361) (6,361)};
     \end{axis}
 \end{tikzpicture}
 \caption{Comparing the cost of perform a 51\% attack, \text{$H\!W\!D$}-PoW(1M windows, 2M windows) vs. PoW}
+$cost = 2* \sqrt{window * branch\,size * correlation\,rate}$
 \label{fig3}
 \end{figure}    
 
