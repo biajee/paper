@@ -357,7 +357,7 @@ In the ideal case, the preparation should be at least longer than the specified 
         ymode=log,
         ymax=100000,
         grid=major,
-        legend entries={$\text{window\#1 1M}$,$\text{window\#2 2M}$,$\text{POW}$},
+        legend entries={$\text{window\#1 1M}$,$\text{window\#2 2M}$,$\text{PoW}$},
         legend style={at={(0.5,-0.2)},anchor=north}
     ]
     \addplot+[sharp plot] coordinates  {(2,30101.6610) (4,31994.5558) (6,36503.7423)};
@@ -370,7 +370,7 @@ $cost = 2* \sqrt{window * branch\,size * correlation\,rate}$
 \label{fig3}
 \end{figure}    
 
-The result indicates that with \text{$H\!W\!D$} scheme, the cost of attacking the Ethereum Mainnet blockchain is increased by more than 100 times if we set the window size to 1M or 2M blocks. In real application, the window could be shorter to speed up the process. We suggest window size is at least 100k, making the cost of attack 100x more expensive.
+The result indicates that with \text{$H\!W\!D$} scheme, the cost of attacking the Ethereum Mainnet blockchain is increased by more than 100 times if we set the window size to 1M or 2M blocks. In real application, the window could be shorter to speed up the process. We suggest window size is at least 1 Million, making the cost of attack 100x more expensive.
 
 
 \section{Conclusion}
