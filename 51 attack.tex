@@ -36,7 +36,7 @@ Palo Alto, CA, USA \\
 \maketitle
 
 \begin{abstract}
-Proof-of-Work (PoW) is a popular protocol used in Blockchain systems to resolve double-spending problems. However, if an attacker has access to calculation hash power greater than half of the total hash power, this attacker can create a double-spending attack or 51\% attack. The cost of creating a 51\% attack is surprisingly low if hash power is abundently available. That posts a great threat to lots of PoW blockchains. We propose a technique to combine history weighted information of miners with the total calculation difficulty to alleviate the 51\% attack problem. Analysis indicates that with the new technique, the cost of a traditional attack is increased by two to three orders of magnitude.
+Proof-of-Work (PoW) is a popular protocol used in Blockchain systems to resolve double-spending problems. However, if an attacker has access to calculation hash power greater than half of the total hash power, this attacker can create a double-spending attack or 51\% attack. The cost of creating a 51\% attack is surprisingly low if hash power is abundantly available. That posts a great threat to lots of PoW blockchains. We propose a technique to combine history weighted information of miners with the total calculation difficulty to alleviate the 51\% attack problem. Analysis indicates that with the new technique, the cost of a traditional attack is increased by two to three orders of magnitude.
 \end{abstract}
 
 
@@ -67,7 +67,7 @@ Most recently, Ethereum Classic\cite{b11} was attacked. Large amount of ETCs wer
 
 \section{Historical weighted difficulty}
 
-We propose a technique to calculate the total difficulty of a certain branch with the consideration of the miners addresses existence frequency in the previous blocks. We call this protocol Historical Weighted Difficulty based Proof-of-Work (\text{$H\!W\!D$}-PoW) protocol. The assumption is that in an honest blockchain branch, miners of new blocks will most likely be the miners who mined the previous blocks, and the distribution will reflect the ratio in hisotry. Furthermore, in a malicious blockchain branch, distribution of miners of new blocks will most likely be controlled by the attackers, which will be diffferent from the regular distribution of miners in the history. Therefore, when history of miners' distribution is considered, one can easily distinguish an honest blockchain branch from a malicious one.
+We propose a technique to calculate the total difficulty of a certain branch with the consideration of the miners addresses existence frequency in the previous blocks. We call this protocol Historical Weighted Difficulty based Proof-of-Work (HWD-PoW) protocol. The assumption is that in an honest blockchain branch, miners of new blocks will most likely be the miners who mined the previous blocks, and the distribution will reflect the ratio in history. Furthermore, in a malicious blockchain branch, distribution of miners of new blocks will most likely be controlled by the attackers, which will be different from the regular distribution of miners in the history. Therefore, when history of miners' distribution is considered, one can easily distinguish an honest blockchain branch from a malicious one.
 
 Under the proposed the mechanism, branch with miners of less representation in the previous blocks will earn less weight in the total difficulty calculation. Therefore, to perform a 51\% attack, the malicious miners have two choices: either to mine a much longer branch, or to build up miner representation in the previous blocks to build up the credibility.
 
@@ -140,14 +140,14 @@ To summarize, the minimal cost of the attacker is to prepare mining for $(w-l)$ 
 
 For a typical attack, $l$ needs to be around 50-500 blocks to allow token withdrawal from a token exchange. From below section, the change of miners is not very frequent. We can easily set $w > 1\ \text{month}$ to increase the history weight. With $w = 100,000$ blocks, the robustness against attack is increased by over 100 times. 
 
-Although we cannot totally avoid 51\% attacks, we can dramatically increase the money cost and time it takes to prepare a potential attack by at least two orders of magnitude. Also, because attacker needs to spend quite a long time to prepare, the attack is much less likely to happen as the long period of time causes a lot of opportinuty cost and uncertainty.  
+Although we cannot totally avoid 51\% attacks, we can dramatically increase the money cost and time it takes to prepare a potential attack by at least two orders of magnitude. Also, because attacker needs to spend quite a long time to prepare, the attack is much less likely to happen as the long period of time causes a lot of opportunity cost and uncertainty.  
 
 
 \section{Additional improvement schemes}
 
 Orthogonal to above mentioned ${H\!W\!D}$ scheme, additional improvement schemes can be applied to further increase the cost of attack. 
 
-The first approach is to post a cap of $r_i < r_c$, which means single miner can never be counted more than $r_c$ even it generates more blocks within the history window. This approach will encourage more diversified mining pool. At the same time, the miners could purposely split the mining hashrate into miltiple miners to make sure each one is below $r_c$. This will circumvent the diversification requirement. However, this is still useful, as it increase the cost for attackers to maintain multiple miner accounts. 
+The first approach is to post a cap of $r_i < r_c$, which means single miner can never be counted more than $r_c$ even it generates more blocks within the history window. This approach will encourage more diversified mining pool. At the same time, the miners could purposely split the mining hashrate into multiple miners to make sure each one is below $r_c$. This will circumvent the diversification requirement. However, this is still useful, as it increase the cost for attackers to maintain multiple miner accounts. 
 
 
 The second approach is to post an overlap requirement between two split branches. To minimize the cost of attack, attacker will focus its hashrate to the malicious branch. The overlap requires the new branch posses a certain amount of miner overlap with the old branch. Under such a condition, in order for a branch switch to happen, one needs to satisfy not only the \text{$H\!W\!D$} condition,
@@ -345,7 +345,7 @@ The total weight of 360-block miners has a strong correlation with the distribut
     \label{fig2}
     \end{figure}    
     
-We further created an simulation to perform 51\% attack at the point of block \#2M, \#4M and \#6M, and computed the result for window length of 1M and 2M. To make it close to real case, we randomly flaged 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we picked the top 360 miners as the attacking branch generator. If the $H\!W\!D$ of attacking branch is higher than those of the original branch, we marked it as a successful attack. 
+We further created an simulation to perform 51\% attack at the point of block \#2M, \#4M and \#6M, and computed the result for window length of 1M and 2M. To make it close to real case, we randomly flagged 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we picked the top 360 miners as the attacking branch generator. If the $H\!W\!D$ of attacking branch is higher than those of the original branch, we marked it as a successful attack. 
 
 In the ideal case, the preparation should be at least longer than the specified window. However, given the correlation of distribution, the preparation period was slightly shorter. We ran the simulation multiple times for each window to get the average accumulated cost. Here we ignored the mining reward halving effect over the time. Result is below Fig.~\ref{fig3}.
 
@@ -386,7 +386,7 @@ This work was supported by the MOAC Foundation and MOAC Blockchain Tech Inc.
 
 \bibitem{b1} S. Nakamoto,``Bitcoin: A peer-to-peer electronic cash system," 2008.
 \bibitem{b2} Z. Zheng, S. Xie, H. Dai, X. Chen, and H. Wang, ``Blockchain challenges
-and opportunities: A survey," Internat. J. Web Grid Serv., 2016.
+and opportunities: A survey," Int. J. Web Grid Serv., 2016.
 \bibitem{b3}M. Conti, S. Kumar E, C. Lal, and S. Ruj, ``A survey on security and privacy issues of Bitcoin," arXiv preprint arXiv:1706.00916, 2017.
 \bibitem{b4} Eyal, I. and Sirer, E.G. (2014) ``Majority is not enough: Bitcoin mining is vulnerable", Proceedings
 of International Conference on Financial Cryptography and Data Security, Berlin, Heidelberg,
