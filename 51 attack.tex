@@ -326,7 +326,7 @@ Miner                                      & Weight   & Amount & Weight\_in\_4M\
 \end{center}
 \end{table}
 
-The total weight of 360-block miners has a strong correlation with the distribution in the history window, even if the history we used is 2 million (M) blocks long (about one year). The result is shown in Fig.~\ref{fig2}. This supports our assumption that the participation rate of honest miners is relatively stable. Thus historical weight of mining history is a very valuable information we can utilize to fight against 51\% attack. We also observed that correlation of new miners with previous 2M blocks strengthened, as it indicates that Ethereum mining is going towards centralization. 
+The total weight of 360-block miners has a strong correlation with the distribution in the history window, even if the history we used is 2 million (M) blocks long (about one year). The result is shown in Fig.~\ref{fig2}. This supports our assumption that the participation rate of honest miners is relatively stable. Therefore, miners' historical weight is a valuable information we can utilize to fight against 51\% attack. We also observed that correlation of new miners with previous 2M blocks is strengthened, as it indicates that Ethereum mining is going towards centralization. 
 
 \begin{figure}[htbp]
     \begin{tikzpicture}
@@ -347,7 +347,7 @@ The total weight of 360-block miners has a strong correlation with the distribut
     
 We further created an simulation to perform 51\% attack at the point of block \#2M, \#4M and \#6M, and computed the result for window length of 1M and 2M. To make it close to real case, we randomly flaged 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we picked the top 360 miners as the attacking branch generator. If the $H\!W\!D$ of attacking branch is higher than those of the original branch, we marked it as a successful attack. 
 
-In the idea case, the preparation should be at least longer than the specified window. However, given the correlation of distribution, the preparation period was slightly shorter. We ran the simulation multiple times for each window to get the average accumulated cost. Here we ignored the mining reward halving effect over the time. Result is below Fig.~\ref{fig3}.
+In the ideal case, the preparation should be at least longer than the specified window. However, given the correlation of distribution, the preparation period was slightly shorter. We ran the simulation multiple times for each window to get the average accumulated cost. Here we ignored the mining reward halving effect over the time. Result is below Fig.~\ref{fig3}.
 
 \begin{figure}[htbp]
     \begin{tikzpicture}
@@ -374,9 +374,9 @@ The result indicates that with \text{$H\!W\!D$} scheme, the cost of attacking th
 
 \section{Conclusion}
  
-In this paper, we proposed an approach to increase the cost of a successful 51\% double-spending attack on Proof-of-Work types of Blockchain protocols. The proposed approach utilizes the frequency rate of miners in history blocks and calculates the total Historical Weighted Difficulty to determine if branch switch is needed. We demonstrated in three real Ethereum Mainnet scenarios that the cost of attack is increased by more than 1000 times with \text{$H\!W\!D$}-PoW scheme.
+In this paper, we proposed an approach to increase the cost of a successful 51\% double-spending attack on Proof-of-Work types of Blockchain protocols. The proposed approach utilizes the frequency rate of miners in history blocks and calculates the total Historical Weighted Difficulty to determine if branch switch is needed. We demonstrated in three real Ethereum Mainnet scenarios that the cost of attack is increased by more than 1000 times with HWD-PoW scheme.
 
-Our \text{$H\!W\!D$}-PoW scheme could be applied to all other PoW based blockchains. This can improve smaller blockchain's security drastically with easy integration. 
+Our HWD-PoW scheme could be applied to all other PoW based blockchains. This can improve smaller blockchain's security drastically with easy integration. 
 
 \section*{Acknowledgment}
 
