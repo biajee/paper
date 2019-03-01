@@ -100,10 +100,10 @@ Suppose $p'$ is the attacker miners' hashrate, $p0$ is the honest miners' hashra
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=3in]{figure.png}}
 \caption{Attacker tries to attack branch $b$ with branch $b'$.}
-\label{fig}
+\label{fig1}
 \end{figure}
 
-The attacker needs to spend hashrate $p'$ in the original branch for a time duration $t'$. The optimum spending of $p'$ is to mine for $w/2$ period and then switch $p'$ to hidden branch at attack point show in Fig 1. In order for attack to be successful, we have
+The attacker needs to spend hashrate $p'$ in the original branch for a time duration $t'$. The optimum spending of $p'$ is to mine for $w/2$ period and then switch $p'$ to hidden branch at attack point show in \ref{fig1}. In order for attack to be successful, we have
 
 \begin{equation}
     p' > p^{0}\label{eq}
@@ -205,7 +205,7 @@ Below is the pseudo code to calculate the $H\!W\!D$
 
 \section{Real data statistics from Ethereum}
 
-We picked a well-known PoW blockchain platform Ethereum. We investigated block data of 2,000,000, 4,000,000, 6,000,000 and following 360 blocks for each from the Ethereum Mainnet.
+We picked a well-known PoW blockchain platform Ethereum. We analyzed block information of first 6,000,000 blocks, which is about 3 years mining history. The first task is to find out the distribution of miners with significant hashrate. The analysis shows that the miner distribution has a strong correlation with past history. At block #2,000,000, #4,000,000, #6,000,000, the following 360 blocks were analyzed. Each miner's weight in the 360-block and weight in the 2M-block is shown in tables blew:
 
 \begin{table}[htbp]
 \caption{Ethereum block miners from 2,000,001 to 2,000,360}
@@ -316,7 +316,7 @@ Miner                                      & Weight   & Amount & Weight\_in\_6M 
 \end{center}
 \end{table}
 
-From the above data, we can see that the total miners' weight are $62.57\%$, $65.60\%$ and $63.91\%$. All of which are around over $60\%$ (Fig.~\ref{fig2}). 
+The total weight of 360-block miners is very stable in the range of sixties percent(Fig.~\ref{fig2}). This reinforces our assumption that honest miner participation in the mining is relatively stable. Thus historical weight of mining history is a very valuable information we can utilize to fight against 51\% attack.  
 
 \begin{figure}[htbp]
     \begin{tikzpicture}
@@ -335,11 +335,11 @@ From the above data, we can see that the total miners' weight are $62.57\%$, $65
     \label{fig2}
     \end{figure}    
     
-The cost of attacking such a chain under regular Ethereum PoW protocol is $361$ Ethers. Under HWD-PoW protocol, if an attacker appeared in $1\%$ of pervious blocks, the total cost of performing an attack will be calculated as follow,
-\begin{equation}
-    Cost = r_i * W + \frac{360 * 60\%}{r_i}\label{eq}
-\end{equation}
-The actual cost of the three scenarios under HWD-PoW protocol are 41,601 Ethers, 61,601 Ethers and 81,601 Ethers respectively. Compared to the original PoW protocol, the cost increases are 114, 170 and 225 times respectively. See Fig.~\ref{fig3}.
+We further created an simulator to perform 51\% at the point of block #2M, #4M and #6M. We simulated the window length at 1M, 2M. To make it close to real case, we randomly flag 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we pick the top 360 miners as the attack branch generator. If the attack branch HWD is higher than original branch HWD, we mark it as a successful attack. 
+
+In the idea case, the preparation should be at least longer than the specified window. However, given the distribution of correlation, the preparation period could be shorter. We run the simulation multiple time for each window to get the actual accumlated cost. Result is below. 
+
+ See Fig.~\ref{fig3}.
 
 \begin{figure}[htbp]
     \begin{tikzpicture}
