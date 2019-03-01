@@ -36,7 +36,7 @@ Palo Alto, CA, USA \\
 \maketitle
 
 \begin{abstract}
-Proof-of-Work (PoW) is a popular protocol used in Blockchain systems to resolve double-spending problems. However, if an attacker has access to calculation hash power greater than half of the total hash power, this attacker can create a double-spending attack or 51\% attack. The cost of creating a 51\% attack is surprisingly low if hash power is abundantly available. That posts a great threat to lots of PoW blockchains. We propose a technique to combine history weighted information of miners with the total calculation difficulty to alleviate the 51\% attack problem. Analysis indicates that with the new technique, the cost of a traditional attack is increased by two to three orders of magnitude.
+Proof-of-Work (PoW) is a popular protocol used in Blockchain systems to resolve double-spending problems. However, if an attacker has access to calculation hash power greater than half of the total hash power, this attacker can create a double-spending attack or 51\% attack. The cost of creating a 51\% attack is surprisingly low if hash power is abundantly available. That posts a great threat to lots of PoW blockchains. We propose a technique to combine history weighted information of miners with the total calculation difficulty to alleviate the 51\% attack problem. Analysis indicates that with the new technique, the cost of a traditional attack is increased by two orders of magnitude.
 \end{abstract}
 
 
@@ -369,12 +369,12 @@ In the ideal case, the preparation should be at least longer than the specified 
 \label{fig3}
 \end{figure}    
 
-The result indicates that with \text{$H\!W\!D$} scheme, the cost of attacking the Ethereum Mainnet blockchain is increased by more than 1000 times if we set the window size to 1M or 2M blocks. In real application, the window could be shorter to speed up the process. We suggest window size is at least 100k, making the cost of attack 100x more expensive.
+The result indicates that with \text{$H\!W\!D$} scheme, the cost of attacking the Ethereum Mainnet blockchain is increased by more than 100 times if we set the window size to 1M or 2M blocks. In real application, the window could be shorter to speed up the process. We suggest window size is at least 100k, making the cost of attack 100x more expensive.
 
 
 \section{Conclusion}
  
-In this paper, we proposed an approach to increase the cost of a successful 51\% double-spending attack on Proof-of-Work types of Blockchain protocols. The proposed approach utilizes the frequency rate of miners in history blocks and calculates the total Historical Weighted Difficulty to determine if branch switch is needed. We demonstrated in three real Ethereum Mainnet scenarios that the cost of attack is increased by more than 1000 times with \text{$H\!W\!D$}-PoW scheme.
+In this paper, we proposed an approach to increase the cost of a successful 51\% double-spending attack on Proof-of-Work types of Blockchain protocols. The proposed approach utilizes the frequency rate of miners in history blocks and calculates the total Historical Weighted Difficulty to determine if branch switch is needed. We demonstrated in three real Ethereum Mainnet scenarios that the cost of attack is increased by more than 100 times with \text{$H\!W\!D$}-PoW scheme.
 
 Our \text{$H\!W\!D$}-PoW scheme could be applied to all other PoW based blockchains. This can improve smaller blockchain's security drastically with easy integration. 
 
