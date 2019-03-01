@@ -345,7 +345,7 @@ The total weight of 360-block miners has a strong correlation with the distribut
     \label{fig2}
     \end{figure}    
     
-We further created a simulation to perform 51\% attacks at the point of block \#2M, \#4M and \#6M, and computed the result for window length of 1M and 2M. To make it close to real case, we randomly flagged 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we picked the top 360 miners as the attacking branch generator. If the $H\!W\!D$ of attacking branch is higher than those of the original branch, we marked it as a successful attack. 
+We further created a simulation to perform 51\% attacks at the point of block \#2M, \#4M and \#6M, and computed the result for window length of 1M and 2M. If the $H\!W\!D$ of attacking branch is higher than those of the original branch, we marked it as a successful attack. 
 
 In the ideal case, the preparation should be at least longer than the specified window. However, given the correlation of distribution, the preparation period was slightly shorter. We ran the simulation multiple times for each window to get the average accumulated cost. Here we ignored the mining reward halving effect over the time. Result is below Fig.~\ref{fig3}.
 
