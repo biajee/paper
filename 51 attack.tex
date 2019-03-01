@@ -107,7 +107,7 @@ Suppose $p_a$ is the attacker miners' hashrate, $p_o$ is the original honest min
 \label{fig1}
 \end{figure}
 
-The attacker needs to spend hashrate $p'$ in the original branch for a time duration $t'$. The optimum spending of $p'$ is to mine for $w/2$ period and then switch $p'$ to hidden branch at attack point show in \ref{fig1}. In order for attack to be successful, we have
+The attacker needs to spend hashrate $p'$ in the original branch for a time duration $t'$. The optimum spending of $p'$ is to mine for $w/2$ period and then switch $p'$ to hidden branch at attack point show in Fig. \ref{fig1}. In order for attack to be successful, we have
 
 \begin{equation}
     p_a > p_o\label{eq_hash_power}
@@ -213,7 +213,7 @@ Below is the pseudo code to calculate the $H\!W\!D$,
 
 \section{Real data statistics from Ethereum}
 
-We picked a well-known PoW blockchain platform Ethereum. We analyzed block information of first 6,000,000 blocks, which is about 3 years mining history. The first task is to find out the distribution of miners with significant hashrate. The analysis shows that the miner distribution has a strong correlation with past history. At block #2,000,000, #4,000,000, #6,000,000, the following 360 blocks were analyzed. Each miner's weight in the 360-block and weight in the 2M-block is shown in tables blew:
+We picked a well-known PoW blockchain platform Ethereum. We analyzed block information of first 6,000,000 blocks, which is about 3 years mining history. The first task is to find out the distribution of miners with significant hashrate. The analysis shows that the miner distribution has a strong correlation with past history. At block \#2,000,000, \#4,000,000, \#6,000,000, the following 360 blocks were analyzed. Each miner's weight in the 360-block and weight in the 2M-block is shown in tables blew:
 
 \begin{table}[htbp]
 \caption{Ethereum block miners from 2,000,001 to 2,000,360}
@@ -343,11 +343,9 @@ The total weight of 360-block miners is very stable in the range of sixties perc
     \label{fig2}
     \end{figure}    
     
-We further created an simulator to perform 51\% at the point of block #2M, #4M and #6M. We simulated the window length at 1M, 2M. To make it close to real case, we randomly flag 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we pick the top 360 miners as the attack branch generator. If the attack branch HWD is higher than original branch HWD, we mark it as a successful attack. 
+We further created an simulator to perform 51\% at the point of block \#2M, \#4M and \#6M. We simulated the window length at 1M, 2M. To make it close to real case, we randomly flag 51\% of miner in certain length back from attack point to be dishonest, which represents the attack preparation period. From the dishonest list, we pick the top 360 miners as the attack branch generator. If the attack branch HWD is higher than original branch HWD, we mark it as a successful attack. 
 
-In the idea case, the preparation should be at least longer than the specified window. However, given the distribution of correlation, the preparation period could be shorter. We run the simulation multiple time for each window to get the actual accumlated cost. Result is below. 
-
- See Fig.~\ref{fig3}.
+In the idea case, the preparation should be at least longer than the specified window. However, given the distribution of correlation, the preparation period could be shorter. We run the simulation multiple time for each window to get the actual accumlated cost. Result is below Fig.~\ref{fig3}.
 
 \begin{figure}[htbp]
     \begin{tikzpicture}
@@ -369,6 +367,9 @@ In the idea case, the preparation should be at least longer than the specified w
 \caption{Comparing the cost of perform a 51\% attack, PoW vs. HWD-PoW. The cost different is clearly at least two orders of magnitude apart.}
 \label{fig3}
 \end{figure}    
+
+The cost of attacking regular Ethereum PoW protocol increases by 114, 170 and 225 times respectively.
+
 
 \section{Conclusion}
  
